@@ -93,8 +93,8 @@ namespace BDD_eCommerce_Project.StepDefinitions {
         public void ThenTheCouponShouldBeAppliedToTheSubtotal(string coupon) {  
             
             decimal originalPrice = cart.GetOriginalPrice(); // Get orignal price
-            decimal reducedAmount = 0;
-            reducedAmount += cart.GetReducedAmount(coupon); // Get reduced amount
+            decimal reducedAmount = 0; // Initalise reducedAmount
+            reducedAmount += cart.GetReducedAmount(coupon); // Get reduced amount + update variable
             decimal shippingPrice = cart.GetShippingPrice(); // Get shipping price
             decimal totalPrice = cart.GetTotalPrice(); // Get total price
 
