@@ -9,7 +9,7 @@ using BDD_eCommerce_Project.Support.PageObjects;
 
 namespace BDD_eCommerce_Project.StepDefinitions {
     [Binding]
-    public class DiscountApplicationDefinitions { 
+    public class ShoppingCartDefinitions { 
         
         private readonly ScenarioContext _scenarioContext;
         private IWebDriver driver;
@@ -24,7 +24,7 @@ namespace BDD_eCommerce_Project.StepDefinitions {
         private readonly Cart cart;
 
 
-        public DiscountApplicationDefinitions(ScenarioContext scenarioContext) {
+        public ShoppingCartDefinitions(ScenarioContext scenarioContext) {
             _scenarioContext = scenarioContext;
             
             this.driver = (IWebDriver)_scenarioContext["myDriver"];

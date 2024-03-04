@@ -1,7 +1,8 @@
-﻿Feature: Discount Application
+﻿Feature: Shopping cart
 
-In order to achieve more sales, the business owner wants to allow customer's 
-to apply a coupon which reduces 15% off the basket subtotal.
+As a customer,
+	I want to be able to add and remove products from my shopping cart
+	So that I am able to manage the products I want to purchase
  
 Background:
 	Given I am on the login page
@@ -10,7 +11,7 @@ Background:
 	Then I should have successfully logged in
 
 @SmokeTests
-Scenario: Successful coupon application
+Scenario: Applying a coupon
 	Given I am on the shop page	
 	When I add an item to the cart
 	And I view the cart

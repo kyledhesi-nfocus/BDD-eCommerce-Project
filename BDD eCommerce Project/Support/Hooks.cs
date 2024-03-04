@@ -24,13 +24,14 @@ namespace BDD_eCommerce_Project.Support {
         [Before]
         public void Setup() {
 
-            string browser = Environment.GetEnvironmentVariable("BROWSER");
+            string browser = Environment.GetEnvironmentVariable("BROWSER").ToLower();
             Console.WriteLine("Browser set to: " + browser);
 
             if (browser == null) {
                 browser = "firefox";
                 Console.WriteLine("Browser environment not set: Setting to Firefox");
             }
+            
             switch (browser) {
                 case "edge":
                     _driver = new EdgeDriver();
@@ -41,7 +42,10 @@ namespace BDD_eCommerce_Project.Support {
                 case "chrome":
                     _driver = new ChromeDriver();
                     break;
-            
+                default:
+                    Console.WriteLine("Unsupported browser: Using Firefox as default");
+                    _driver = new FirefoxDriver();
+                    break;
             }
 
             _scenarioContext["myDriver"] = _driver;

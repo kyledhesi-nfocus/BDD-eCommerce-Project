@@ -14,10 +14,10 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
         public LoginMyAccount(IWebDriver driver) {
             this._driver = driver;
         }
-        private IWebElement _usernameField => _driver.FindElement(By.Id("username"));
-        private IWebElement _passwordField => _driver.FindElement(By.Id("password"));
-        private IWebElement _loginButton => _driver.FindElement(By.CssSelector("#customer_login button"));
-        private IWebElement _dismiss => _driver.FindElement(By.ClassName("woocommerce-store-notice__dismiss-link"));
+        private IWebElement _usernameField => WaitForElement(_driver, 2, By.Id("username"));
+        private IWebElement _passwordField => WaitForElement(_driver, 2, By.Id("password"));
+        private IWebElement _loginButton => WaitForElement(_driver, 2, By.CssSelector("#customer_login button"));
+        private IWebElement _dismiss => WaitForElement(_driver, 2, By.ClassName("woocommerce-store-notice__dismiss-link"));
 
         public void EnterUsernameAndPassword(string username, string password) {
             _usernameField.Clear();

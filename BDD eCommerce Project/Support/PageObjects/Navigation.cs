@@ -27,12 +27,12 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
         }
 
         // Properties for each link
-        public IWebElement HomeLink => _driver.FindElement(By.LinkText("Home"));
-        public IWebElement ShopLink => _driver.FindElement(By.LinkText("Shop"));
-        public IWebElement CartLink => _driver.FindElement(By.LinkText("Cart"));
-        public IWebElement CheckoutLink => _driver.FindElement(By.LinkText("Checkout"));
-        public IWebElement MyAccountLink => _driver.FindElement(By.LinkText("My account"));
-        public IWebElement BlogLink => _driver.FindElement(By.LinkText("Blog"));
+        public IWebElement HomeLink => WaitForElement(_driver, 5, By.LinkText("Home"));
+        public IWebElement ShopLink => WaitForElement(_driver, 5, By.LinkText("Shop"));
+        public IWebElement CartLink => WaitForElement(_driver, 5, By.LinkText("Cart"));
+        public IWebElement CheckoutLink => WaitForElement(_driver, 5, By.LinkText("Checkout"));
+        public IWebElement MyAccountLink => WaitForElement(_driver, 5, By.LinkText("My account"));
+        public IWebElement BlogLink => WaitForElement(_driver, 5, By.LinkText("Blog"));
 
         // Method to click on a link based on the Enum
         public void ClickLink(Link link) {
@@ -40,27 +40,21 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
 
             switch (link) {
                 case Link.Home:
-                    WaitForElement(_driver, 5, By.LinkText("Home"));
                     HomeLink.Click();
                     break;
                 case Link.Shop:
-                    WaitForElement(_driver, 5, By.LinkText("Shop"));
                     ShopLink.Click();
                     break;
                 case Link.Cart:
-                    WaitForElement(_driver, 5, By.LinkText("Cart"));
                     CartLink.Click();
                     break;
                 case Link.Checkout:
-                    WaitForElement(_driver, 5, By.LinkText("Checkout"));
                     CheckoutLink.Click();
                     break;
                 case Link.MyAccount:
-                    WaitForElement(_driver, 5, By.LinkText("My account"));
                     MyAccountLink.Click();
                     break;
                 case Link.Blog:
-                    WaitForElement(_driver, 5, By.LinkText("Blog"));
                     BlogLink.Click();
                     break;
                 default:

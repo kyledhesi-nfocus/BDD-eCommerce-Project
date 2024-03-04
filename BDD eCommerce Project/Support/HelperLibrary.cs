@@ -9,9 +9,10 @@ using System.Globalization;
 
 namespace BDD_eCommerce_Project.Support {
     public static class HelperLibrary {
-        public static void WaitForElement(IWebDriver driver, int timeoutInSeconds, By locator) {
+        public static IWebElement WaitForElement(IWebDriver driver, int timeoutInSeconds, By locator) {
             WebDriverWait myWait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
             myWait.Until(drv => drv.FindElement(locator).Displayed);
+            return driver.FindElement(locator);
         }
 
         public static bool WaitForElementDisabled(IWebDriver driver, int timeoutInSeconds, By locator) {
