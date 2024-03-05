@@ -1,10 +1,9 @@
-﻿@SmokeTest
-
+﻿@Functional
 Feature: Shopping cart
 
 As a customer,
-	I want to be able to add and remove products from my shopping cart
-	So that I am able to manage the products I want to purchase
+	I want to be able to update my shopping cart
+	So that I am able to manage the products I want to checkout with
  
 Background:
 	Given I am on the shop page

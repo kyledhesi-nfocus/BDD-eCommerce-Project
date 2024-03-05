@@ -21,14 +21,14 @@ namespace BDD_eCommerce_Project.Features
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
     [NUnit.Framework.DescriptionAttribute("Shopping cart")]
-    [NUnit.Framework.CategoryAttribute("SmokeTest")]
+    [NUnit.Framework.CategoryAttribute("Functional")]
     public partial class ShoppingCartFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
-                "SmokeTest"};
+                "Functional"};
         
 #line 1 "ShoppingCart.feature"
 #line hidden
@@ -37,8 +37,8 @@ namespace BDD_eCommerce_Project.Features
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Shopping cart", "As a customer,\r\n\tI want to be able to add and remove products from my shopping ca" +
-                    "rt\r\n\tSo that I am able to manage the products I want to purchase", ProgrammingLanguage.CSharp, featureTags);
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Shopping cart", "As a customer,\r\n\tI want to be able to update my shopping cart\r\n\tSo that I am able" +
+                    " to manage the products I want to checkout with", ProgrammingLanguage.CSharp, featureTags);
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -78,9 +78,9 @@ namespace BDD_eCommerce_Project.Features
         
         public virtual void FeatureBackground()
         {
-#line 9
+#line 8
 #line hidden
-#line 10
+#line 9
  testRunner.Given("I am on the shop page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
@@ -96,7 +96,7 @@ namespace BDD_eCommerce_Project.Features
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("coupon", coupon);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Applying a coupon", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 12
+#line 11
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -106,19 +106,19 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 9
+#line 8
 this.FeatureBackground();
 #line hidden
-#line 13
+#line 12
  testRunner.When("I add an item to the cart", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 14
+#line 13
  testRunner.And("I view the cart", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 15
+#line 14
  testRunner.When(string.Format("I apply the coupon \'{0}\'", coupon), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 16
+#line 15
  testRunner.Then(string.Format("the coupon \'{0}\' should be applied to the subtotal", coupon), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }

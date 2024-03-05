@@ -1,6 +1,9 @@
-﻿Feature: Checkout
+﻿@Functional
+Feature: Checkout
 
-A short summary of the feature
+As a customer,
+	I want to able to input my billing details
+	So that I am able to place an order
 
 
 Background:

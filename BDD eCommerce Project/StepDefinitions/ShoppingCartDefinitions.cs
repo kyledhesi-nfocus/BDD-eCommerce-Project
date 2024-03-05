@@ -13,7 +13,6 @@ namespace BDD_eCommerce_Project.StepDefinitions {
         
         private readonly ScenarioContext _scenarioContext;
         private IWebDriver driver;
-
         private readonly Navigation navigation;
         private readonly Shop shop;
         private readonly Cart cart;
@@ -51,9 +50,8 @@ namespace BDD_eCommerce_Project.StepDefinitions {
 
             if(cart.CouponAlert.Contains("does not exist!")) {
                 cart.RemoveCouponAndItem();
-
-                Assert.Fail("Unsuccessfully applied the coupon");
-                Console.WriteLine(cart.CouponAlert);
+                navigation.ClickLink(Navigation.Link.MyAccount);
+                Assert.Fail("Unsuccessfully applied the coupon");   
             }
         }
 

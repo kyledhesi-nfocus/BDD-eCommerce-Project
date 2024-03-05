@@ -28,12 +28,11 @@ namespace BDD_eCommerce_Project.Support {
         public void Setup() {
             browser = Environment.GetEnvironmentVariable("BROWSER").ToLower();
             Console.WriteLine("Browser set to: " + browser);
-
+            
             if (browser == null) {
                 browser = "firefox";
                 Console.WriteLine("Browser environment not set: Setting to Firefox");
             }
-   
             switch (browser) {
                 case "edge":
                     _driver = new EdgeDriver();
@@ -49,26 +48,34 @@ namespace BDD_eCommerce_Project.Support {
                     _driver = new FirefoxDriver();
                     break;
             }
-            
+
+            _driver.Manage().Window.Maximize();
             string baseUrl = TestContext.Parameters["WebAppURL"];
             _driver.Url = baseUrl;
-
+            
             _scenarioContext["myDriver"] = _driver;
 
             string username = Environment.GetEnvironmentVariable("SECRET_USERNAME");
             string password = Environment.GetEnvironmentVariable("SECRET_PASSWORD");
 
-            LoginMyAccount loginMyAccount = new LoginMyAccount(_driver);
-            loginMyAccount.Login(username, password);
-
-            Assert.That(_driver.FindElement(By.LinkText("Log out")).Displayed, "Login was not successful.");
-            Console.WriteLine("Successfully logged in");
+            try {
+                LoginMyAccount loginMyAccount = new LoginMyAccount(_driver);
+                loginMyAccount.Login(username, password);
+                Assert.That(_driver.FindElement(By.LinkText("Log out")).Displayed);
+                Console.WriteLine("Successfully logged in - Begin Test!");
+            } catch(Exception) {
+                Assert.Fail("Unsuccessfully logged in - Test Failed");
+            }
         }
 
         [After]
         public void TearDown() {
+            MyAccountDashboard myAccountDashboard = new(_driver);
+            myAccountDashboard.Logout();
+            
             Thread.Sleep(2000);
             _driver.Quit();
+            Console.WriteLine("Successfully logged out - Test complete!");
         }
     }
 }

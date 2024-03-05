@@ -15,10 +15,13 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
             this._driver = driver;
         }
 
-        public string OrderID => WaitForElement(_driver, 2, By.CssSelector("#post-7 tbody > tr:nth-child(1) td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-number a")).Text;
-
+        public string OrderID => WaitForElement(_driver, 2, By.CssSelector("#post-7 tbody tr:nth-child(1) td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-number a")).Text;
+        public IWebElement DashboardLink => WaitForElement(_driver, 2, By.LinkText("Dashboard"));
         public string GetOrderID() {
             return OrderID;
+        }
+        public void Dashboard() {
+            DashboardLink.Click();
         }
     }
 }

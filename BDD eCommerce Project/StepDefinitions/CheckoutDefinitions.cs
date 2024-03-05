@@ -85,10 +85,10 @@ namespace BDD_eCommerce_Project.StepDefinitions {
                 Assert.That(orderNumber, Is.EqualTo(OrderID.TrimStart('#')).IgnoreCase);
                 Console.WriteLine("Successfully displayed latest order");
                 TestContext.WriteLine($"Order number displayed {orderNumber}, Most recent order on My account {OrderID}");
+                myAccountOrders.Dashboard();
             } catch {
                 Assert.Fail("Unsuccessfully displayed latest order");
-            }
+            }   
         }
-
     }
 }

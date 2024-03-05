@@ -23,6 +23,5 @@ namespace BDD_eCommerce_Project.Support {
             PhoneNumber = phoneNumber;
             Email = email;
         }
-
     }
 }
