@@ -4,16 +4,12 @@ A short summary of the feature
 
 
 Background:
-	Given I am on the login page
-	When I enter my email and password
-	And I click the Login button or press ENTER
-	Then I should have successfully logged in
+	Given I have at least one product in my cart
+	And I am on the cart page
 
-@tag1
 Scenario: Placing an order
-	Given I have an item in my cart
-	When I proceed to checkout 
-	And Enter my billing details
-	When I place order
-	Then the order should have gone through
-	And be on my account
+	When I click the Proceed to checkout button
+	And I enter my billing details
+	When I click the Place order button
+	Then I should see the Order recieved page
+	And the order number should appear on the Orders page

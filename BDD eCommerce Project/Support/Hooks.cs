@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Chrome;
+using BDD_eCommerce_Project.Support.PageObjects;
+using NUnit.Framework.Internal;
 
 namespace BDD_eCommerce_Project.Support {
 
@@ -16,6 +18,7 @@ namespace BDD_eCommerce_Project.Support {
 
         private IWebDriver _driver;
         private readonly ScenarioContext _scenarioContext;
+        private string browser;
 
         public Hooks (ScenarioContext scenarioContext) {
             _scenarioContext = scenarioContext;
@@ -23,15 +26,14 @@ namespace BDD_eCommerce_Project.Support {
 
         [Before]
         public void Setup() {
-
-            string browser = Environment.GetEnvironmentVariable("BROWSER").ToLower();
+            browser = Environment.GetEnvironmentVariable("BROWSER").ToLower();
             Console.WriteLine("Browser set to: " + browser);
 
             if (browser == null) {
                 browser = "firefox";
                 Console.WriteLine("Browser environment not set: Setting to Firefox");
             }
-            
+   
             switch (browser) {
                 case "edge":
                     _driver = new EdgeDriver();
@@ -47,14 +49,20 @@ namespace BDD_eCommerce_Project.Support {
                     _driver = new FirefoxDriver();
                     break;
             }
+            
+            string baseUrl = TestContext.Parameters["WebAppURL"];
+            _driver.Url = baseUrl;
 
             _scenarioContext["myDriver"] = _driver;
-            _scenarioContext["baseURL"] = TestContext.Parameters["WebAppURL"];
 
-            _scenarioContext["username"] = Environment.GetEnvironmentVariable("SECRET_USERNAME");
-            _scenarioContext["password"] = Environment.GetEnvironmentVariable("SECRET_PASSWORD");
+            string username = Environment.GetEnvironmentVariable("SECRET_USERNAME");
+            string password = Environment.GetEnvironmentVariable("SECRET_PASSWORD");
 
-            
+            LoginMyAccount loginMyAccount = new LoginMyAccount(_driver);
+            loginMyAccount.Login(username, password);
+
+            Assert.That(_driver.FindElement(By.LinkText("Log out")).Displayed, "Login was not successful.");
+            Console.WriteLine("Successfully logged in");
         }
 
         [After]

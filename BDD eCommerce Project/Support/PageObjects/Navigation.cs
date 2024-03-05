@@ -13,7 +13,7 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
         private IWebDriver _driver;
 
         public Navigation(IWebDriver driver) {
-            _driver = driver;
+            this._driver = driver;
         }
 
         // Define an Enum for the links

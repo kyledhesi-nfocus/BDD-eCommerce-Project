@@ -21,12 +21,14 @@ namespace BDD_eCommerce_Project.Features
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
     [NUnit.Framework.DescriptionAttribute("Shopping cart")]
+    [NUnit.Framework.CategoryAttribute("SmokeTest")]
     public partial class ShoppingCartFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
-        private static string[] featureTags = ((string[])(null));
+        private static string[] featureTags = new string[] {
+                "SmokeTest"};
         
 #line 1 "ShoppingCart.feature"
 #line hidden
@@ -76,41 +78,25 @@ namespace BDD_eCommerce_Project.Features
         
         public virtual void FeatureBackground()
         {
-#line 7
-#line hidden
-#line 8
- testRunner.Given("I am on the login page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
 #line 9
- testRunner.When("I enter my email and password", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 10
- testRunner.And("I click the Login button or press ENTER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 11
- testRunner.Then("I should have successfully logged in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Given("I am on the shop page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Applying a coupon")]
-        [NUnit.Framework.CategoryAttribute("SmokeTests")]
         [NUnit.Framework.TestCaseAttribute("edgewords", null)]
         [NUnit.Framework.TestCaseAttribute("nfocus", null)]
         [NUnit.Framework.TestCaseAttribute("INVALIDCOUPON", null)]
         public void ApplyingACoupon(string coupon, string[] exampleTags)
         {
-            string[] @__tags = new string[] {
-                    "SmokeTests"};
-            if ((exampleTags != null))
-            {
-                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
-            }
-            string[] tagsOfScenario = @__tags;
+            string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("coupon", coupon);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Applying a coupon", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 14
+#line 12
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -120,22 +106,19 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 7
+#line 9
 this.FeatureBackground();
 #line hidden
-#line 15
- testRunner.Given("I am on the shop page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 16
+#line 13
  testRunner.When("I add an item to the cart", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 17
+#line 14
  testRunner.And("I view the cart", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 18
+#line 15
  testRunner.When(string.Format("I apply the coupon \'{0}\'", coupon), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 19
+#line 16
  testRunner.Then(string.Format("the coupon \'{0}\' should be applied to the subtotal", coupon), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }

@@ -19,7 +19,7 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
         private IWebElement _loginButton => WaitForElement(_driver, 2, By.CssSelector("#customer_login button"));
         private IWebElement _dismiss => WaitForElement(_driver, 2, By.ClassName("woocommerce-store-notice__dismiss-link"));
 
-        public void EnterUsernameAndPassword(string username, string password) {
+        public void Login(string username, string password) {
             _usernameField.Clear();
             _usernameField.Click();
             _usernameField.SendKeys(username);
@@ -27,14 +27,9 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
             _passwordField.Clear();
             _passwordField.Click();
             _passwordField.SendKeys(password);
-        }
 
-        public void ClickLoginButton() {
-            _loginButton.Click();
-        }
-
-        public void DismissBanner() {
             _dismiss.Click();
+            _loginButton.Click();
         }
     }
 }

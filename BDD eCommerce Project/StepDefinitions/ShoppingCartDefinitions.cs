@@ -14,11 +14,6 @@ namespace BDD_eCommerce_Project.StepDefinitions {
         private readonly ScenarioContext _scenarioContext;
         private IWebDriver driver;
 
-        private string baseUrl;
-        private string username;
-        private string password;
-
-        private readonly LoginMyAccount loginMyAccount;
         private readonly Navigation navigation;
         private readonly Shop shop;
         private readonly Cart cart;
@@ -26,38 +21,11 @@ namespace BDD_eCommerce_Project.StepDefinitions {
 
         public ShoppingCartDefinitions(ScenarioContext scenarioContext) {
             _scenarioContext = scenarioContext;
-            
+
             this.driver = (IWebDriver)_scenarioContext["myDriver"];
-            this.username = (string)_scenarioContext["username"];
-            this.password = (string)_scenarioContext["password"];
-            this.baseUrl = (string)_scenarioContext["baseURL"];
-
-            loginMyAccount = new(driver);
-            navigation = new(driver);
-            shop = new(driver);
-            cart = new(driver);
-        }
-
-        [Given(@"I am on the login page")]
-        public void GivenIAmOnTheLoginPage() {
-           driver.Url = baseUrl;
-        }
-
-        [When(@"I enter my email and password")]
-        public void WhenIEnterMyEmailAndPassword() {
-            loginMyAccount.EnterUsernameAndPassword(username, password);
-        }
-
-        [When(@"I click the Login button or press ENTER")]
-        public void WhenIClickTheLoginButtonOrPressENTER() {
-            loginMyAccount.DismissBanner();
-            loginMyAccount.ClickLoginButton();
-        }
-
-        [Then(@"I should have successfully logged in")]
-        public void GivenIShouldHaveSuccessfullyLoggedIn() {
-            Assert.That(driver.FindElement(By.LinkText("Log out")).Displayed);
-            Console.WriteLine("Successfully logged in");
+            this.navigation = new(driver);
+            this.shop = new(driver);
+            this.cart = new(driver);
         }
 
         [Given(@"I am on the shop page")]
@@ -93,8 +61,7 @@ namespace BDD_eCommerce_Project.StepDefinitions {
         public void ThenTheCouponShouldBeAppliedToTheSubtotal(string coupon) {  
             
             decimal originalPrice = cart.GetOriginalPrice(); // Get orignal price
-            decimal reducedAmount = 0; // Initalise reducedAmount
-            reducedAmount += cart.GetReducedAmount(coupon); // Get reduced amount + update variable
+            decimal reducedAmount = cart.GetReducedAmount(coupon); // Get reduced amount
             decimal shippingPrice = cart.GetShippingPrice(); // Get shipping price
             decimal totalPrice = cart.GetTotalPrice(); // Get total price
 
