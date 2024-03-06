@@ -15,11 +15,10 @@ namespace BDD_eCommerce_Project.Support {
 
     [Binding]
     public class Hooks {
-
         private IWebDriver _driver;
         private readonly ScenarioContext _scenarioContext;
         private string browser;
-
+        private string screenshotFilePath;
         public Hooks (ScenarioContext scenarioContext) {
             _scenarioContext = scenarioContext;
         }
@@ -55,16 +54,19 @@ namespace BDD_eCommerce_Project.Support {
             
             _scenarioContext["myDriver"] = _driver;
 
+            screenshotFilePath = Path.Combine(TestContext.CurrentContext.WorkDirectory);
+            _scenarioContext["screenshotFilePath"] = screenshotFilePath;
+
             string username = Environment.GetEnvironmentVariable("SECRET_USERNAME");
             string password = Environment.GetEnvironmentVariable("SECRET_PASSWORD");
-
             try {
                 LoginMyAccount loginMyAccount = new LoginMyAccount(_driver);
                 loginMyAccount.Login(username, password);
                 Assert.That(_driver.FindElement(By.LinkText("Log out")).Displayed);
                 Console.WriteLine("Successfully logged in - Begin Test!");
             } catch(Exception) {
-                Assert.Fail("Unsuccessfully logged in - Test Failed");
+                Console.WriteLine("Configure .runsettings with valid login credentials");
+                Assert.Fail("Login unsuccessful - Test Failed");
             }
         }
 

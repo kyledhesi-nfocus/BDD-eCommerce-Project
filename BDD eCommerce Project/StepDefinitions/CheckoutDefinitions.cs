@@ -15,7 +15,6 @@ namespace BDD_eCommerce_Project.StepDefinitions {
 
         private readonly ScenarioContext _scenarioContext;
         private IWebDriver driver;
-
         private readonly Navigation navigation;
         private readonly Shop shop;
         private readonly Cart cart;
@@ -25,12 +24,13 @@ namespace BDD_eCommerce_Project.StepDefinitions {
         private readonly MyAccountDashboard myAccountDashboard;
         private readonly MyAccountOrders myAccountOrders;
         private string orderNumber;
-
+        private string screenshotFilePath;
 
         public CheckoutDefinitions(ScenarioContext scenarioContext) {
             _scenarioContext = scenarioContext;
 
             this.driver = (IWebDriver)_scenarioContext["myDriver"];
+            this.screenshotFilePath = (string)_scenarioContext["screenshotFilePath"];
             this.navigation = new(driver);
             this.shop = new(driver);
             this.cart = new(driver);
@@ -45,33 +45,56 @@ namespace BDD_eCommerce_Project.StepDefinitions {
         [Given(@"I have at least one product in my cart")]
         public void GivenIHaveAtLeastOneProductInMyCart() {
             navigation.ClickLink(Navigation.Link.Shop);
-            shop.AddToCart(Shop.Product.Belt);
+            Console.WriteLine("Successfully entered shop");
+
+            shop.AddToCart(Shop.Product.HoodieWithLogo);
+            Console.WriteLine($"Successfully added item {Shop.Product.HoodieWithLogo} to the cart");
         }
 
         [Given(@"I am on the cart page")]
         public void GivenIAmOnTheCartPage() {
             navigation.ClickLink(Navigation.Link.Cart);
+            Console.WriteLine("Successfully entered cart");
         }
 
         [When(@"I click the Proceed to checkout button")]
         public void WhenIClickTheProceedToCheckoutButton() {
             cart.Checkout();
+            Console.WriteLine("Successfully clicked Proceed to checkout button");
+            Console.WriteLine("Successfully entered checkout");
         }
 
         [When(@"I enter my billing details")]
         public void WhenIEnterMyBillingDetails() {
             checkout.EnterBillingDetails(billingDetails);
+            Console.WriteLine("Successfully entered billing details - Attaching screenshot to report");
+
+            HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Billing details.jpg");
+            TestContext.AddTestAttachment(screenshotFilePath + "Billing details.jpg", "Billing details applied");
         }
 
         [When(@"I click the Place order button")]
         public void WhenIClickThePlaceOrderButton(){
             checkout.PlaceOrder();
+            Console.WriteLine("Successfully clicked Place order button");
         }
 
         [Then(@"I should see the Order recieved page")]
         public void ThenIShouldSeeTheOrderRecievedPage() {
-            Assert.That(orderReceived.OrderRecieved(), "Order has not been placed"); 
-            orderNumber = orderReceived.GetOrderNumber();
+            try {
+                Assert.That(orderReceived.OrderRecieved());
+                orderNumber = orderReceived.GetOrderNumber();
+                TestContext.WriteLine($"Successfully placed order with order number:{orderNumber} - Attaching Order Confirmation screenshot to report");
+                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Order Confirmation.jpg");
+                TestContext.AddTestAttachment(screenshotFilePath + "Order Confirmation.jpg", "Order Confirmation screenshot");
+
+            } catch(Exception) {
+                TestContext.WriteLine("Attaching screenshot to report");
+                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Order Confirmation Error.jpg");
+                TestContext.AddTestAttachment(screenshotFilePath + "Order Confirmation Error.jpg", "Order Confirmation Error screenshot");
+                Assert.Fail("Unsuccessfully placed order");
+                
+            }
         }
 
         [Then(@"the order number should appear on the Orders page")]
@@ -83,10 +106,12 @@ namespace BDD_eCommerce_Project.StepDefinitions {
 
             try {
                 Assert.That(orderNumber, Is.EqualTo(OrderID.TrimStart('#')).IgnoreCase);
-                Console.WriteLine("Successfully displayed latest order");
-                TestContext.WriteLine($"Order number displayed {orderNumber}, Most recent order on My account {OrderID}");
+                TestContext.WriteLine($"Successfully displayed latest order: Order number displayed {OrderID} | Expected order number: {orderNumber} - Attaching Orders screenshot to report");
+                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "All Orders.jpg");
+                TestContext.AddTestAttachment(screenshotFilePath + "All Orders.jpg", "All Orders screenshot");
                 myAccountOrders.Dashboard();
             } catch {
+                TestContext.WriteLine($"Order number displayed {OrderID} | Expected order number: {orderNumber}");
                 Assert.Fail("Unsuccessfully displayed latest order");
             }   
         }

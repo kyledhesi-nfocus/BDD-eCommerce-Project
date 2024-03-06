@@ -14,7 +14,6 @@ namespace BDD_eCommerce_Project.Support {
             myWait.Until(drv => drv.FindElement(locator).Displayed);
             return driver.FindElement(locator);
         }
-
         public static bool WaitForElementDisabled(IWebDriver driver, int timeoutInSeconds, By locator) {
             WebDriverWait myWait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
             try {
@@ -30,11 +29,15 @@ namespace BDD_eCommerce_Project.Support {
                 return false;
             }
         }
-
         public static decimal ToDecimal(string str) {
             var style = NumberStyles.Currency | NumberStyles.AllowCurrencySymbol;
             var provider = new CultureInfo("en-GB");
             return decimal.Parse(str, style, provider);
+        }
+        public static void TakeScreenshot(IWebDriver driver, string screenshotFile) {
+            ITakesScreenshot screenshotDriver = driver as ITakesScreenshot;
+            Screenshot screenshot = screenshotDriver.GetScreenshot();
+            screenshot.SaveAsFile(screenshotFile);
         }
     }
 }
