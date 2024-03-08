@@ -89,7 +89,7 @@ namespace BDD_eCommerce_Project.Features
         [NUnit.Framework.DescriptionAttribute("Applying a coupon")]
         [NUnit.Framework.TestCaseAttribute("edgewords", null)]
         [NUnit.Framework.TestCaseAttribute("nfocus", null)]
-        [NUnit.Framework.TestCaseAttribute("INVALIDCOUPON", null)]
+        [NUnit.Framework.TestCaseAttribute("DOESNOTEXIST", null)]
         public void ApplyingACoupon(string coupon, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;

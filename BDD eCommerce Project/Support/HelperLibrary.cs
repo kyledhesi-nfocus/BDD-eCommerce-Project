@@ -39,5 +39,14 @@ namespace BDD_eCommerce_Project.Support {
             Screenshot screenshot = screenshotDriver.GetScreenshot();
             screenshot.SaveAsFile(screenshotFile);
         }
+
+        public static void ScrollAndTakeScreenshot(IWebDriver driver, string screenshotFile) {       
+            IJavaScriptExecutor jsExecutor = (IJavaScriptExecutor)driver;
+            jsExecutor.ExecuteScript("window.scrollBy(0,323)", "");
+
+            ITakesScreenshot screenshotDriver = driver as ITakesScreenshot;
+            Screenshot screenshot = screenshotDriver.GetScreenshot();
+            screenshot.SaveAsFile(screenshotFile);
+        }
     }
 }

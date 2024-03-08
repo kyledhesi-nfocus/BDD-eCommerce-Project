@@ -59,6 +59,7 @@ namespace BDD_eCommerce_Project.Support {
 
             string username = Environment.GetEnvironmentVariable("SECRET_USERNAME");
             string password = Environment.GetEnvironmentVariable("SECRET_PASSWORD");
+            
             try {
                 LoginMyAccount loginMyAccount = new LoginMyAccount(_driver);
                 loginMyAccount.Login(username, password);

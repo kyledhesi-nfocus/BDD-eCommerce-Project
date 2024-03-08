@@ -18,7 +18,7 @@ Scenario: Applying a coupon
 	| coupon        |
 	| edgewords     |
 	| nfocus        |
-	| INVALIDCOUPON |
+	| DOESNOTEXIST  |
 
 
 
