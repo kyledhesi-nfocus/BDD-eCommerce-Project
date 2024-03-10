@@ -41,78 +41,77 @@ namespace BDD_eCommerce_Project.StepDefinitions {
             this.orderReceived = new(driver);  
         }
 
-  
         [Given(@"I have at least one product in my cart")]
         public void GivenIHaveAtLeastOneProductInMyCart() {
-            navigation.ClickLink(Navigation.Link.Shop);
+            navigation.ClickLink(Navigation.Link.Shop);     // navigates to the 'Shop' page
             Console.WriteLine("Successfully entered shop");
 
-            shop.AddToCart(Shop.Product.HoodieWithLogo);
+            shop.AddToCart(Shop.Product.HoodieWithLogo);    // adds a specific product 'HoodieWithLogo' to the cart
             Console.WriteLine($"Successfully added item {Shop.Product.HoodieWithLogo} to the cart");
         }
 
         [Given(@"I am on the cart page")]
         public void GivenIAmOnTheCartPage() {
-            navigation.ClickLink(Navigation.Link.Cart);
+            navigation.ClickLink(Navigation.Link.Cart);     // navigates to the 'Cart' page
             Console.WriteLine("Successfully entered cart");
         }
 
         [When(@"I click the Proceed to checkout button")]
         public void WhenIClickTheProceedToCheckoutButton() {
-            cart.Checkout();
+            cart.Checkout();    // clicks the 'Proceed to checkout' button
             Console.WriteLine("Successfully clicked Proceed to checkout button");
             Console.WriteLine("Successfully entered checkout");
         }
 
         [When(@"I enter my billing details")]
         public void WhenIEnterMyBillingDetails() {
-            checkout.EnterBillingDetails(billingDetails);
+            checkout.EnterBillingDetails(billingDetails);   // enters the billing details into fields
             Console.WriteLine("Successfully entered billing details - Attaching screenshot to report");
 
-            HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Billing details.jpg");
+            HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Billing details.jpg");   // take screenshot of billing details
             TestContext.AddTestAttachment(screenshotFilePath + "Billing details.jpg", "Billing details applied");
         }
 
         [When(@"I click the Place order button")]
         public void WhenIClickThePlaceOrderButton(){
-            checkout.PlaceOrder();
+            checkout.PlaceOrder();  // clicks the 'Place order' button
             Console.WriteLine("Successfully clicked Place order button");
         }
 
         [Then(@"I should see the Order recieved page")]
         public void ThenIShouldSeeTheOrderRecievedPage() {
             try {
-                Assert.That(orderReceived.OrderRecieved());
-                orderNumber = orderReceived.GetOrderNumber();
+                Assert.That(orderReceived.OrderRecieved());     // check if the order has successfully been placed
+                orderNumber = orderReceived.GetOrderNumber();   // assign Order Number displayed to orderNumber
                 TestContext.WriteLine($"Successfully placed order with order number:{orderNumber} - Attaching Order Confirmation screenshot to report");
-                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Order Confirmation.jpg");
+                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Order Confirmation.jpg");    // take screenshot of successful Order confirmation
                 TestContext.AddTestAttachment(screenshotFilePath + "Order Confirmation.jpg", "Order Confirmation screenshot");
 
             } catch(Exception) {
                 TestContext.WriteLine("Attaching screenshot to report");
-                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Order Confirmation Error.jpg");
+                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Order Confirmation Error.jpg");  // take screenshot of unsuccessful Order confirmation
                 TestContext.AddTestAttachment(screenshotFilePath + "Order Confirmation Error.jpg", "Order Confirmation Error screenshot");
-                Assert.Fail("Unsuccessfully placed order");
+                Assert.Fail("Unsuccessfully placed order");     // assert fail if order is not succesfully placed
                 
             }
         }
 
         [Then(@"the order number should appear on the Orders page")]
         public void ThenTheOrderNumberShouldAppearOnTheOrdersPage() {
-            navigation.ClickLink(Navigation.Link.MyAccount);
-            myAccountDashboard.ViewOrders();
+            navigation.ClickLink(Navigation.Link.MyAccount);    // naviagate to 'My account' page
+            myAccountDashboard.ViewOrders();    // click Orders link to view all orders
 
-            string OrderID = myAccountOrders.GetOrderID();
+            string OrderID = myAccountOrders.GetOrderID();  // get and assign the most recent Order ID to OrderID
 
             try {
-                Assert.That(orderNumber, Is.EqualTo(OrderID.TrimStart('#')).IgnoreCase);
+                Assert.That(orderNumber, Is.EqualTo(OrderID.TrimStart('#')).IgnoreCase);    // check if OrderID matches with orderNumber
                 TestContext.WriteLine($"Successfully displayed latest order: Order number displayed {OrderID} | Expected order number: {orderNumber} - Attaching Orders screenshot to report");
-                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "All Orders.jpg");
+                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "All Orders.jpg");    // take screenshot of all Orders
                 TestContext.AddTestAttachment(screenshotFilePath + "All Orders.jpg", "All Orders screenshot");
-                myAccountOrders.Dashboard();
+                myAccountOrders.Dashboard(); // navigate to 'My account' dashboard
             } catch {
                 TestContext.WriteLine($"Order number displayed {OrderID} | Expected order number: {orderNumber}");
-                Assert.Fail("Unsuccessfully displayed latest order");
+                Assert.Fail("Unsuccessfully displayed latest order");   // assert fail if orderNumber is not displayed
             }   
         }
     }
