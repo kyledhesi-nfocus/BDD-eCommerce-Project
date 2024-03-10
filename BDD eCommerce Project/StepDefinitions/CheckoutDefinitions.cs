@@ -65,11 +65,14 @@ namespace BDD_eCommerce_Project.StepDefinitions {
 
         [When(@"I enter my billing details")]
         public void WhenIEnterMyBillingDetails() {
-            checkout.EnterBillingDetails(billingDetails);   // enters the billing details into fields
-            Console.WriteLine("Successfully entered billing details - Attaching screenshot to report");
-
-            HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Billing details.jpg");   // take screenshot of billing details
-            TestContext.AddTestAttachment(screenshotFilePath + "Billing details.jpg", "Billing details applied");
+            try {
+                checkout.EnterBillingDetails(billingDetails);   // enters the billing details into fields
+                Console.WriteLine("Successfully entered billing details - Attaching screenshot to report");
+                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Billing details.jpg");   // take screenshot of billing details
+                TestContext.AddTestAttachment(screenshotFilePath + "Billing details.jpg", "Billing details applied");
+            } catch (Exception){
+                Assert.Fail("Unsuccessfully entered billing details into input fields");  // assert fail if billing details are not entered successfully
+            }
         }
 
         [When(@"I click the Place order button")]

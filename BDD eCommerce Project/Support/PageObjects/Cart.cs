@@ -52,7 +52,7 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
             try {
                 RemoveCoupon.Click();
             } catch {
-               
+
             }
             WaitForElementDisabled(_driver, 2, By.CssSelector("blockUI.blockOverlay"));
             RemoveItemButton.Click();

@@ -48,13 +48,17 @@ namespace BDD_eCommerce_Project.StepDefinitions {
 
         [When(@"I apply the coupon '(.*)'")]
         public void WhenIApplyTheCoupon(string coupon) {
-            cart.EnterCouponCode(coupon);   // enter and submit the coupon code into field
-            cart.WaitForAlert();
-            HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Coupon Applied.jpg");    // take screenshot of coupon being applied confirmation
-            TestContext.WriteLine($"Attaching screenshot to report");
-            TestContext.AddTestAttachment(screenshotFilePath + "Coupon Applied.jpg", "Coupon applied");
+            try {
+                cart.EnterCouponCode(coupon);   // enter and submit the coupon code into field
+                cart.WaitForAlert();
+                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Coupon Applied.jpg");    // take screenshot of coupon being applied confirmation
+                TestContext.WriteLine($"Attaching screenshot to report");
+                TestContext.AddTestAttachment(screenshotFilePath + "Coupon Applied.jpg", "Coupon applied");
 
-            Console.WriteLine($"Successfully applied coupon:{coupon}");
+                Console.WriteLine($"Successfully applied coupon:{coupon}");
+            } catch(Exception) {
+                Assert.Fail("Unsuccessfully entered coupon");   // assert fail if the coupon is not entered and submitted
+            }
         }
 
         [Then(@"the coupon '(.*)' should be applied to the subtotal")]
