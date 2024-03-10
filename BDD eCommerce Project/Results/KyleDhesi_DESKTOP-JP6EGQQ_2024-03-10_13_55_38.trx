@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="b58d71f9-df1d-4d0a-8e24-12a8b2393333" name="KyleDhesi@DESKTOP-JP6EGQQ 2024-03-10 13:55:38" runUser="AzureAD\KyleDhesi" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2024-03-10T13:55:38.0710660+00:00" queuing="2024-03-10T13:55:38.0710665+00:00" start="2024-03-10T13:55:06.7504211+00:00" finish="2024-03-10T13:56:52.8047015+00:00" />
+  <TestSettings name="default" id="4cc9e088-d15b-47b1-899f-20f1df60d10d">
+    <Deployment runDeploymentRoot="KyleDhesi_DESKTOP-JP6EGQQ_2024-03-10_13_55_38" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="c201423c-33cd-4b9c-b0dd-efa419b0d951" testId="7512ffe1-86f0-f331-38a5-1c2e9b9567f2" testName="ApplyingACoupon(&quot;edgewords&quot;,null)" computerName="DESKTOP-JP6EGQQ" duration="00:00:24.1640430" startTime="2024-03-10T13:55:37.9966331+00:00" endTime="2024-03-10T13:56:02.1606753+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c201423c-33cd-4b9c-b0dd-efa419b0d951">
+      <Output>
+        <StdOut>Browser set to: firefox&#xD;
+Successfully logged in - Begin Test!&#xD;
+Given I am on the shop page&#xD;
+Successfully entered shop&#xD;
+-&gt; done: ShoppingCartDefinitions.GivenIAmOnTheShopPage() (1.7s)&#xD;
+When I add an item to the cart&#xD;
+Successfully added item Sunglasses to the cart&#xD;
+-&gt; done: ShoppingCartDefinitions.WhenIAddAnItemToTheCart() (0.3s)&#xD;
+And I view the cart&#xD;
+Successfully entered cart&#xD;
+-&gt; done: ShoppingCartDefinitions.WhenIViewTheCart() (1.8s)&#xD;
+When I apply the coupon 'edgewords'&#xD;
+Attaching screenshot to report&#xD;
+Successfully applied coupon:edgewords&#xD;
+-&gt; done: ShoppingCartDefinitions.WhenIApplyTheCoupon("edgewords") (0.8s)&#xD;
+Then the coupon 'edgewords' should be applied to the subtotal&#xD;
+Subtotal price displayed: 90.00 | Reduced amount displayed: 9.00 | Expected reduced amount: 13.5000&#xD;
+Attaching screenshot to report&#xD;
+-&gt; error: Multiple failures or warnings in test:&#xD;
+  1)   Assert.That(reducedAmount, Is.EqualTo(discountAmount))&#xD;
+  Expected: 13.5m&#xD;
+  But was:  9m&#xD;
+&#xD;
+  2) Unsuccessfully reduced 15.00% from subtotal price&#xD;
+ (4.9s)&#xD;
+Successfully logged out - Test complete!</StdOut>
+        <ErrorInfo>
+          <Message>Multiple failures or warnings in test:&#xD;
+  1)   Assert.That(reducedAmount, Is.EqualTo(discountAmount))&#xD;
+  Expected: 13.5m&#xD;
+  But was:  9m&#xD;
+&#xD;
+  2) Unsuccessfully reduced 15.00% from subtotal price&#xD;
+</Message>
+          <StackTrace>   at BDD_eCommerce_Project.StepDefinitions.ShoppingCartDefinitions.ThenTheCouponShouldBeAppliedToTheSubtotal(String coupon) in C:\Users\KyleDhesi\source\repos\BDD eCommerce Project\BDD eCommerce Project\StepDefinitions\ShoppingCartDefinitions.cs:line 101&#xD;
+   at TechTalk.SpecFlow.Bindings.BindingInvoker.InvokeBinding(IBinding binding, IContextManager contextManager, Object[] arguments, ITestTracer testTracer, TimeSpan&amp; duration)&#xD;
+   at TechTalk.SpecFlow.Infrastructure.TestExecutionEngine.ExecuteStepMatch(BindingMatch match, Object[] arguments, TimeSpan&amp; duration)&#xD;
+   at TechTalk.SpecFlow.Infrastructure.TestExecutionEngine.ExecuteStep(IContextManager contextManager, StepInstance stepInstance)&#xD;
+   at TechTalk.SpecFlow.Infrastructure.TestExecutionEngine.OnAfterLastStep()&#xD;
+   at TechTalk.SpecFlow.TestRunner.CollectScenarioErrors()&#xD;
+   at BDD_eCommerce_Project.Features.ShoppingCartFeature.ScenarioCleanup()&#xD;
+   at BDD_eCommerce_Project.Features.ShoppingCartFeature.ApplyingACoupon(String coupon, String[] exampleTags) in C:\Users\KyleDhesi\source\repos\BDD eCommerce Project\BDD eCommerce Project\Features\ShoppingCart.feature:line 15&#xD;
+
+1)    at BDD_eCommerce_Project.StepDefinitions.ShoppingCartDefinitions.ThenTheCouponShouldBeAppliedToTheSubtotal(String coupon) in C:\Users\KyleDhesi\source\repos\BDD eCommerce Project\BDD eCommerce Project\StepDefinitions\ShoppingCartDefinitions.cs:line 91&#xD;
+
+2)    at BDD_eCommerce_Project.StepDefinitions.ShoppingCartDefinitions.ThenTheCouponShouldBeAppliedToTheSubtotal(String coupon) in C:\Users\KyleDhesi\source\repos\BDD eCommerce Project\BDD eCommerce Project\StepDefinitions\ShoppingCartDefinitions.cs:line 91&#xD;
+
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+      <ResultFiles>
+        <ResultFile path="DESKTOP-JP6EGQQ\net6.0Coupon Applied.jpg" />
+        <ResultFile path="DESKTOP-JP6EGQQ\net6.0Subtotal discount error.jpg" />
+      </ResultFiles>
+    </UnitTestResult>
+    <UnitTestResult executionId="c4e5ca94-78aa-40b2-9331-4ebffcec079e" testId="892875c0-7747-b00a-837e-ca6821338250" testName="ApplyingACoupon(&quot;DOESNOTEXIST&quot;,null)" computerName="DESKTOP-JP6EGQQ" duration="00:00:26.8361470" startTime="2024-03-10T13:56:25.7067413+00:00" endTime="2024-03-10T13:56:52.5428886+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c4e5ca94-78aa-40b2-9331-4ebffcec079e">
+      <Output>
+        <StdOut>Browser set to: firefox&#xD;
+Successfully logged in - Begin Test!&#xD;
+Given I am on the shop page&#xD;
+Successfully entered shop&#xD;
+-&gt; done: ShoppingCartDefinitions.GivenIAmOnTheShopPage() (1.7s)&#xD;
+When I add an item to the cart&#xD;
+Successfully added item Sunglasses to the cart&#xD;
+-&gt; done: ShoppingCartDefinitions.WhenIAddAnItemToTheCart() (0.2s)&#xD;
+And I view the cart&#xD;
+Successfully entered cart&#xD;
+-&gt; done: ShoppingCartDefinitions.WhenIViewTheCart() (1.7s)&#xD;
+When I apply the coupon 'DOESNOTEXIST'&#xD;
+Attaching screenshot to report&#xD;
+Successfully applied coupon:DOESNOTEXIST&#xD;
+-&gt; done: ShoppingCartDefinitions.WhenIApplyTheCoupon("DOESNOTEXIST") (0.8s)&#xD;
+Then the coupon 'DOESNOTEXIST' should be applied to the subtotal&#xD;
+Unsuccessfully applied coupon: DOESNOTEXIST to subtotal&#xD;
+-&gt; error: Invalid coupon - DOESNOTEXIST (8.2s)&#xD;
+Successfully logged out - Test complete!</StdOut>
+        <ErrorInfo>
+          <Message>Invalid coupon - DOESNOTEXIST</Message>
+          <StackTrace>   at BDD_eCommerce_Project.StepDefinitions.ShoppingCartDefinitions.ThenTheCouponShouldBeAppliedToTheSubtotal(String coupon) in C:\Users\KyleDhesi\source\repos\BDD eCommerce Project\BDD eCommerce Project\StepDefinitions\ShoppingCartDefinitions.cs:line 75&#xD;
+   at TechTalk.SpecFlow.Bindings.BindingInvoker.InvokeBinding(IBinding binding, IContextManager contextManager, Object[] arguments, ITestTracer testTracer, TimeSpan&amp; duration)&#xD;
+   at TechTalk.SpecFlow.Infrastructure.TestExecutionEngine.ExecuteStepMatch(BindingMatch match, Object[] arguments, TimeSpan&amp; duration)&#xD;
+   at TechTalk.SpecFlow.Infrastructure.TestExecutionEngine.ExecuteStep(IContextManager contextManager, StepInstance stepInstance)&#xD;
+   at TechTalk.SpecFlow.Infrastructure.TestExecutionEngine.OnAfterLastStep()&#xD;
+   at TechTalk.SpecFlow.TestRunner.CollectScenarioErrors()&#xD;
+   at BDD_eCommerce_Project.Features.ShoppingCartFeature.ScenarioCleanup()&#xD;
+   at BDD_eCommerce_Project.Features.ShoppingCartFeature.ApplyingACoupon(String coupon, String[] exampleTags) in C:\Users\KyleDhesi\source\repos\BDD eCommerce Project\BDD eCommerce Project\Features\ShoppingCart.feature:line 15&#xD;
+
+1)    at BDD_eCommerce_Project.StepDefinitions.ShoppingCartDefinitions.ThenTheCouponShouldBeAppliedToTheSubtotal(String coupon) in C:\Users\KyleDhesi\source\repos\BDD eCommerce Project\BDD eCommerce Project\StepDefinitions\ShoppingCartDefinitions.cs:line 70&#xD;
+
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+      <ResultFiles>
+        <ResultFile path="DESKTOP-JP6EGQQ\net6.0Coupon Applied.jpg" />
+      </ResultFiles>
+    </UnitTestResult>
+    <UnitTestResult executionId="51680e9b-a5b3-48ca-914c-d1973c851c60" testId="dfba2336-8ce4-d9a3-aa41-43ada8d4debc" testName="PlacingAnOrder" computerName="DESKTOP-JP6EGQQ" duration="00:00:30.1232950" startTime="2024-03-10T13:55:07.8613408+00:00" endTime="2024-03-10T13:55:37.9845462+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="51680e9b-a5b3-48ca-914c-d1973c851c60">
+      <Output>
+        <StdOut>Browser set to: firefox&#xD;
+Successfully logged in - Begin Test!&#xD;
+Given I have at least one product in my cart&#xD;
+Successfully entered shop&#xD;
+Successfully added item HoodieWithLogo to the cart&#xD;
+-&gt; done: CheckoutDefinitions.GivenIHaveAtLeastOneProductInMyCart() (1.9s)&#xD;
+And I am on the cart page&#xD;
+Successfully entered cart&#xD;
+-&gt; done: CheckoutDefinitions.GivenIAmOnTheCartPage() (1.7s)&#xD;
+When I click the Proceed to checkout button&#xD;
+Successfully clicked Proceed to checkout button&#xD;
+Successfully entered checkout&#xD;
+-&gt; done: CheckoutDefinitions.WhenIClickTheProceedToCheckoutButton() (0.5s)&#xD;
+And I enter my billing details&#xD;
+Successfully entered billing details - Attaching screenshot to report&#xD;
+-&gt; done: CheckoutDefinitions.WhenIEnterMyBillingDetails() (2.9s)&#xD;
+When I click the Place order button&#xD;
+Successfully clicked Place order button&#xD;
+-&gt; done: CheckoutDefinitions.WhenIClickThePlaceOrderButton() (2.3s)&#xD;
+Then I should see the Order recieved page&#xD;
+Successfully placed order with order number:11214 - Attaching Order Confirmation screenshot to report&#xD;
+-&gt; done: CheckoutDefinitions.ThenIShouldSeeTheOrderRecievedPage() (1.2s)&#xD;
+And the order number should appear on the Orders page&#xD;
+Successfully displayed latest order: Order number displayed #11214 | Expected order number: 11214 - Attaching Orders screenshot to report&#xD;
+-&gt; done: CheckoutDefinitions.ThenTheOrderNumberShouldAppearOnTheOrdersPage() (3.9s)&#xD;
+Successfully logged out - Test complete!</StdOut>
+      </Output>
+      <ResultFiles>
+        <ResultFile path="DESKTOP-JP6EGQQ\net6.0All Orders.jpg" />
+        <ResultFile path="DESKTOP-JP6EGQQ\net6.0Billing details.jpg" />
+        <ResultFile path="DESKTOP-JP6EGQQ\net6.0Order Confirmation.jpg" />
+      </ResultFiles>
+    </UnitTestResult>
+    <UnitTestResult executionId="32c2a7ef-bf8e-47bc-b99e-58f2b2985fb3" testId="b65ed3d9-438c-2dfe-5a6a-7c939b83f85d" testName="ApplyingACoupon(&quot;nfocus&quot;,null)" computerName="DESKTOP-JP6EGQQ" duration="00:00:23.5055540" startTime="2024-03-10T13:56:02.1713602+00:00" endTime="2024-03-10T13:56:25.6768985+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="32c2a7ef-bf8e-47bc-b99e-58f2b2985fb3">
+      <Output>
+        <StdOut>Browser set to: firefox&#xD;
+Successfully logged in - Begin Test!&#xD;
+Given I am on the shop page&#xD;
+Successfully entered shop&#xD;
+-&gt; done: ShoppingCartDefinitions.GivenIAmOnTheShopPage() (1.6s)&#xD;
+When I add an item to the cart&#xD;
+Successfully added item Sunglasses to the cart&#xD;
+-&gt; done: ShoppingCartDefinitions.WhenIAddAnItemToTheCart() (0.3s)&#xD;
+And I view the cart&#xD;
+Successfully entered cart&#xD;
+-&gt; done: ShoppingCartDefinitions.WhenIViewTheCart() (1.6s)&#xD;
+When I apply the coupon 'nfocus'&#xD;
+Attaching screenshot to report&#xD;
+Successfully applied coupon:nfocus&#xD;
+-&gt; done: ShoppingCartDefinitions.WhenIApplyTheCoupon("nfocus") (0.8s)&#xD;
+Then the coupon 'nfocus' should be applied to the subtotal&#xD;
+Successfully reduced 25.00% from original price&#xD;
+Subtotal price displayed: 90.00 | Reduced amount displayed: 22.50&#xD;
+Successfully calculated total after coupon &amp; shippping&#xD;
+Total price displayed 71.45 | (original price 90.00 - reduced amount 22.50) + shipping cost 3.95 - Attaching screenshot to report&#xD;
+Successfully removed items&#xD;
+Successfully entered My account&#xD;
+-&gt; done: ShoppingCartDefinitions.ThenTheCouponShouldBeAppliedToTheSubtotal("nfocus") (4.9s)&#xD;
+Successfully logged out - Test complete!</StdOut>
+      </Output>
+      <ResultFiles>
+        <ResultFile path="DESKTOP-JP6EGQQ\net6.0Cart overview.jpg" />
+        <ResultFile path="DESKTOP-JP6EGQQ\net6.0Coupon Applied.jpg" />
+      </ResultFiles>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="PlacingAnOrder" storage="c:\users\kyledhesi\source\repos\bdd ecommerce project\bdd ecommerce project\bin\debug\net6.0\bdd ecommerce project.dll" id="dfba2336-8ce4-d9a3-aa41-43ada8d4debc">
+      <Execution id="51680e9b-a5b3-48ca-914c-d1973c851c60" />
+      <TestMethod codeBase="C:\Users\KyleDhesi\source\repos\BDD eCommerce Project\BDD eCommerce Project\bin\Debug\net6.0\BDD eCommerce Project.dll" adapterTypeName="executor://nunit3testexecutor/" className="BDD_eCommerce_Project.Features.CheckoutFeature" name="PlacingAnOrder" />
+    </UnitTest>
+    <UnitTest name="ApplyingACoupon(&quot;nfocus&quot;,null)" storage="c:\users\kyledhesi\source\repos\bdd ecommerce project\bdd ecommerce project\bin\debug\net6.0\bdd ecommerce project.dll" id="b65ed3d9-438c-2dfe-5a6a-7c939b83f85d">
+      <Execution id="32c2a7ef-bf8e-47bc-b99e-58f2b2985fb3" />
+      <TestMethod codeBase="C:\Users\KyleDhesi\source\repos\BDD eCommerce Project\BDD eCommerce Project\bin\Debug\net6.0\BDD eCommerce Project.dll" adapterTypeName="executor://nunit3testexecutor/" className="BDD_eCommerce_Project.Features.ShoppingCartFeature" name="ApplyingACoupon(&quot;nfocus&quot;,null)" />
+    </UnitTest>
+    <UnitTest name="ApplyingACoupon(&quot;edgewords&quot;,null)" storage="c:\users\kyledhesi\source\repos\bdd ecommerce project\bdd ecommerce project\bin\debug\net6.0\bdd ecommerce project.dll" id="7512ffe1-86f0-f331-38a5-1c2e9b9567f2">
+      <Execution id="c201423c-33cd-4b9c-b0dd-efa419b0d951" />
+      <TestMethod codeBase="C:\Users\KyleDhesi\source\repos\BDD eCommerce Project\BDD eCommerce Project\bin\Debug\net6.0\BDD eCommerce Project.dll" adapterTypeName="executor://nunit3testexecutor/" className="BDD_eCommerce_Project.Features.ShoppingCartFeature" name="ApplyingACoupon(&quot;edgewords&quot;,null)" />
+    </UnitTest>
+    <UnitTest name="ApplyingACoupon(&quot;DOESNOTEXIST&quot;,null)" storage="c:\users\kyledhesi\source\repos\bdd ecommerce project\bdd ecommerce project\bin\debug\net6.0\bdd ecommerce project.dll" id="892875c0-7747-b00a-837e-ca6821338250">
+      <Execution id="c4e5ca94-78aa-40b2-9331-4ebffcec079e" />
+      <TestMethod codeBase="C:\Users\KyleDhesi\source\repos\BDD eCommerce Project\BDD eCommerce Project\bin\Debug\net6.0\BDD eCommerce Project.dll" adapterTypeName="executor://nunit3testexecutor/" className="BDD_eCommerce_Project.Features.ShoppingCartFeature" name="ApplyingACoupon(&quot;DOESNOTEXIST&quot;,null)" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="7512ffe1-86f0-f331-38a5-1c2e9b9567f2" executionId="c201423c-33cd-4b9c-b0dd-efa419b0d951" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="892875c0-7747-b00a-837e-ca6821338250" executionId="c4e5ca94-78aa-40b2-9331-4ebffcec079e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="dfba2336-8ce4-d9a3-aa41-43ada8d4debc" executionId="51680e9b-a5b3-48ca-914c-d1973c851c60" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b65ed3d9-438c-2dfe-5a6a-7c939b83f85d" executionId="32c2a7ef-bf8e-47bc-b99e-58f2b2985fb3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="4" executed="4" passed="2" failed="2" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>NUnit Adapter 4.5.0.0: Test execution started&#xD;
+Running all tests in C:\Users\KyleDhesi\source\repos\BDD eCommerce Project\BDD eCommerce Project\bin\Debug\net6.0\BDD eCommerce Project.dll&#xD;
+   NUnit3TestExecutor discovered 4 of 4 NUnit test cases using Current Discovery mode, Non-Explicit run&#xD;
+NUnit Adapter 4.5.0.0: Test execution complete&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="DESKTOP-JP6EGQQ" outcome="Warning" timestamp="2024-03-10T13:55:38.0125638+00:00">
+        <Text>Browser set to: firefox&#xD;
+Successfully logged in - Begin Test!&#xD;
+Given I have at least one product in my cart&#xD;
+Successfully entered shop&#xD;
+Successfully added item HoodieWithLogo to the cart&#xD;
+-&gt; done: CheckoutDefinitions.GivenIHaveAtLeastOneProductInMyCart() (1.9s)&#xD;
+And I am on the cart page&#xD;
+Successfully entered cart&#xD;
+-&gt; done: CheckoutDefinitions.GivenIAmOnTheCartPage() (1.7s)&#xD;
+When I click the Proceed to checkout button&#xD;
+Successfully clicked Proceed to checkout button&#xD;
+Successfully entered checkout&#xD;
+-&gt; done: CheckoutDefinitions.WhenIClickTheProceedToCheckoutButton() (0.5s)&#xD;
+And I enter my billing details&#xD;
+Successfully entered billing details - Attaching screenshot to report&#xD;
+-&gt; done: CheckoutDefinitions.WhenIEnterMyBillingDetails() (2.9s)&#xD;
+When I click the Place order button&#xD;
+Successfully clicked Place order button&#xD;
+-&gt; done: CheckoutDefinitions.WhenIClickThePlaceOrderButton() (2.3s)&#xD;
+Then I should see the Order recieved page&#xD;
+Successfully placed order with order number:11214 - Attaching Order Confirmation screenshot to report&#xD;
+-&gt; done: CheckoutDefinitions.ThenIShouldSeeTheOrderRecievedPage() (1.2s)&#xD;
+And the order number should appear on the Orders page&#xD;
+Successfully displayed latest order: Order number displayed #11214 | Expected order number: 11214 - Attaching Orders screenshot to report&#xD;
+-&gt; done: CheckoutDefinitions.ThenTheOrderNumberShouldAppearOnTheOrdersPage() (3.9s)&#xD;
+Successfully logged out - Test complete!&#xD;
+</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-JP6EGQQ" outcome="Warning" timestamp="2024-03-10T13:56:02.1670265+00:00">
+        <Text>Browser set to: firefox&#xD;
+Successfully logged in - Begin Test!&#xD;
+Given I am on the shop page&#xD;
+Successfully entered shop&#xD;
+-&gt; done: ShoppingCartDefinitions.GivenIAmOnTheShopPage() (1.7s)&#xD;
+When I add an item to the cart&#xD;
+Successfully added item Sunglasses to the cart&#xD;
+-&gt; done: ShoppingCartDefinitions.WhenIAddAnItemToTheCart() (0.3s)&#xD;
+And I view the cart&#xD;
+Successfully entered cart&#xD;
+-&gt; done: ShoppingCartDefinitions.WhenIViewTheCart() (1.8s)&#xD;
+When I apply the coupon 'edgewords'&#xD;
+Attaching screenshot to report&#xD;
+Successfully applied coupon:edgewords&#xD;
+-&gt; done: ShoppingCartDefinitions.WhenIApplyTheCoupon("edgewords") (0.8s)&#xD;
+Then the coupon 'edgewords' should be applied to the subtotal&#xD;
+Subtotal price displayed: 90.00 | Reduced amount displayed: 9.00 | Expected reduced amount: 13.5000&#xD;
+Attaching screenshot to report&#xD;
+-&gt; error: Multiple failures or warnings in test:&#xD;
+  1)   Assert.That(reducedAmount, Is.EqualTo(discountAmount))&#xD;
+  Expected: 13.5m&#xD;
+  But was:  9m&#xD;
+&#xD;
+  2) Unsuccessfully reduced 15.00% from subtotal price&#xD;
+ (4.9s)&#xD;
+Successfully logged out - Test complete!&#xD;
+</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-JP6EGQQ" outcome="Warning" timestamp="2024-03-10T13:56:25.6780261+00:00">
+        <Text>Browser set to: firefox&#xD;
+Successfully logged in - Begin Test!&#xD;
+Given I am on the shop page&#xD;
+Successfully entered shop&#xD;
+-&gt; done: ShoppingCartDefinitions.GivenIAmOnTheShopPage() (1.6s)&#xD;
+When I add an item to the cart&#xD;
+Successfully added item Sunglasses to the cart&#xD;
+-&gt; done: ShoppingCartDefinitions.WhenIAddAnItemToTheCart() (0.3s)&#xD;
+And I view the cart&#xD;
+Successfully entered cart&#xD;
+-&gt; done: ShoppingCartDefinitions.WhenIViewTheCart() (1.6s)&#xD;
+When I apply the coupon 'nfocus'&#xD;
+Attaching screenshot to report&#xD;
+Successfully applied coupon:nfocus&#xD;
+-&gt; done: ShoppingCartDefinitions.WhenIApplyTheCoupon("nfocus") (0.8s)&#xD;
+Then the coupon 'nfocus' should be applied to the subtotal&#xD;
+Successfully reduced 25.00% from original price&#xD;
+Subtotal price displayed: 90.00 | Reduced amount displayed: 22.50&#xD;
+Successfully calculated total after coupon &amp; shippping&#xD;
+Total price displayed 71.45 | (original price 90.00 - reduced amount 22.50) + shipping cost 3.95 - Attaching screenshot to report&#xD;
+Successfully removed items&#xD;
+Successfully entered My account&#xD;
+-&gt; done: ShoppingCartDefinitions.ThenTheCouponShouldBeAppliedToTheSubtotal("nfocus") (4.9s)&#xD;
+Successfully logged out - Test complete!&#xD;
+</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-JP6EGQQ" outcome="Warning" timestamp="2024-03-10T13:56:52.5443651+00:00">
+        <Text>Browser set to: firefox&#xD;
+Successfully logged in - Begin Test!&#xD;
+Given I am on the shop page&#xD;
+Successfully entered shop&#xD;
+-&gt; done: ShoppingCartDefinitions.GivenIAmOnTheShopPage() (1.7s)&#xD;
+When I add an item to the cart&#xD;
+Successfully added item Sunglasses to the cart&#xD;
+-&gt; done: ShoppingCartDefinitions.WhenIAddAnItemToTheCart() (0.2s)&#xD;
+And I view the cart&#xD;
+Successfully entered cart&#xD;
+-&gt; done: ShoppingCartDefinitions.WhenIViewTheCart() (1.7s)&#xD;
+When I apply the coupon 'DOESNOTEXIST'&#xD;
+Attaching screenshot to report&#xD;
+Successfully applied coupon:DOESNOTEXIST&#xD;
+-&gt; done: ShoppingCartDefinitions.WhenIApplyTheCoupon("DOESNOTEXIST") (0.8s)&#xD;
+Then the coupon 'DOESNOTEXIST' should be applied to the subtotal&#xD;
+Unsuccessfully applied coupon: DOESNOTEXIST to subtotal&#xD;
+-&gt; error: Invalid coupon - DOESNOTEXIST (8.2s)&#xD;
+Successfully logged out - Test complete!&#xD;
+</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

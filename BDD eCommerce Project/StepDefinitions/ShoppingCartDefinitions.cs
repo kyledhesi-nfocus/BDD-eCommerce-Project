@@ -92,13 +92,13 @@ namespace BDD_eCommerce_Project.StepDefinitions {
                 Console.WriteLine($"Successfully reduced {couponDiscount * 100}% from original price");
                 TestContext.WriteLine($"Subtotal price displayed: {originalPrice} | Reduced amount displayed: {reducedAmount}");
             } catch {
-                TestContext.WriteLine($"Subtotal price displayed: {originalPrice} | Reduced amount displayed: {reducedAmount} | Expected reduced amount: {discountAmount}");
+                TestContext.WriteLine($"{coupon} should give {couponDiscount*100}% -  Subtotal price: {originalPrice} | Reduced amount: {reducedAmount} | Expected reduced amount: {discountAmount}");
                 HelperLibrary.ScrollAndTakeScreenshot(driver, screenshotFilePath + "Subtotal discount error.jpg");
                 TestContext.WriteLine($"Attaching screenshot to report");
                 TestContext.AddTestAttachment(screenshotFilePath + "Subtotal discount error.jpg", "Discount error");
                 cart.RemoveCouponAndItem();
                 navigation.ClickLink(Navigation.Link.MyAccount);
-                Assert.Fail($"Unsuccessfully reduced {couponDiscount * 100}% from subtotal price");     // assert fail if the amount reduced does not match the expected coupon discount 
+                Assert.Fail($"Unsuccessfully reduced {couponDiscount * 100}% from {originalPrice}");     // assert fail if the amount reduced does not match the expected coupon discount 
             }
 
             try {
