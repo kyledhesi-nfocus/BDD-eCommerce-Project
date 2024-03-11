@@ -12,13 +12,13 @@ Scenario: Applying a coupon
 	When I add an item to the cart
 	And I view the cart
 	When I apply the coupon '<coupon>'
-	Then the coupon '<coupon>' should be applied to the subtotal
+	Then the discount '<discount>' should be applied to the subtotal
 
 	Examples:
-	| coupon        |
-	| edgewords     |
-	| nfocus        |
-	| DOESNOTEXIST  |
+	| coupon       | discount |
+	| edgewords    | 15       |
+	| nfocus       | 25       |
+	| DOESNOTEXIST | 0        |
 
 
 

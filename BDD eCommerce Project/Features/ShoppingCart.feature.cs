@@ -87,14 +87,15 @@ namespace BDD_eCommerce_Project.Features
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Applying a coupon")]
-        [NUnit.Framework.TestCaseAttribute("edgewords", null)]
-        [NUnit.Framework.TestCaseAttribute("nfocus", null)]
-        [NUnit.Framework.TestCaseAttribute("DOESNOTEXIST", null)]
-        public void ApplyingACoupon(string coupon, string[] exampleTags)
+        [NUnit.Framework.TestCaseAttribute("edgewords", "15", null)]
+        [NUnit.Framework.TestCaseAttribute("nfocus", "25", null)]
+        [NUnit.Framework.TestCaseAttribute("DOESNOTEXIST", "0", null)]
+        public void ApplyingACoupon(string coupon, string discount, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("coupon", coupon);
+            argumentsOfScenario.Add("discount", discount);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Applying a coupon", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 11
 this.ScenarioInitialize(scenarioInfo);
@@ -119,7 +120,7 @@ this.FeatureBackground();
  testRunner.When(string.Format("I apply the coupon \'{0}\'", coupon), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 15
- testRunner.Then(string.Format("the coupon \'{0}\' should be applied to the subtotal", coupon), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then(string.Format("the discount \'{0}\' should be applied to the subtotal", discount), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

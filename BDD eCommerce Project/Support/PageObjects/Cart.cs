@@ -34,10 +34,16 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
             return ToDecimal(OriginalPrice);
         }
 
-        public decimal GetReducedAmount(string coupon) {
-            WaitForElement(_driver, 2, By.CssSelector($"#post-5 .cart-collaterals .cart-discount.coupon-{coupon} span"));
-            string ReducedAmount = _driver.FindElement(By.CssSelector($"#post-5 .cart-collaterals .cart-discount.coupon-{coupon} span")).Text;
-            return ToDecimal(ReducedAmount);
+        public decimal GetReducedAmount() {
+            try {
+                WaitForElement(_driver, 2, By.CssSelector($"#post-5 .cart-collaterals .cart-discount.coupon-edgewords span"));
+                string ReducedAmount = _driver.FindElement(By.CssSelector($"#post-5 .cart-collaterals .cart-discount.coupon-edgewords span")).Text;
+                return ToDecimal(ReducedAmount);
+            } catch {
+                WaitForElement(_driver, 2, By.CssSelector($"#post-5 .cart-collaterals .cart-discount.coupon-nfocus span"));
+                string ReducedAmount = _driver.FindElement(By.CssSelector($"#post-5 .cart-collaterals .cart-discount.coupon-nfocus span")).Text;
+                return ToDecimal(ReducedAmount);
+            }
         }
 
         public decimal GetShippingPrice() {
