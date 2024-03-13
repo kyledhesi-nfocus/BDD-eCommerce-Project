@@ -6,19 +6,22 @@ As a customer,
 	So that I am able to manage the products I want to checkout with
  
 Background:
-	Given I am on the shop page
+	Given I am logged in as a user
+	And I am on the shop page
 
-Scenario: Applying a coupon
-	When I add an item to the cart
+Scenario Outline: Applying a coupon
+	When I add a product '<product>' to the cart
 	And I view the cart
 	When I apply the coupon '<coupon>'
 	Then the discount '<discount>' should be applied to the subtotal
+	And the correct total should be displayed
 
 	Examples:
-	| coupon       | discount |
-	| edgewords    | 15       |
-	| nfocus       | 25       |
-	| DOESNOTEXIST | 0        |
+	| product      | coupon        | discount |
+	| belt         | edgewords     | 15       |
+	| sunglasses   | edgewords     | 10       |
+	| hoodie       | nfocus        | 25       |
+	| polo         | DOESNOTEXIST  | 0        |
 
 
 

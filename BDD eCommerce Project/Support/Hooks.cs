@@ -1,15 +1,9 @@
 ﻿using OpenQA.Selenium.Edge;
 using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Chrome;
 using BDD_eCommerce_Project.Support.PageObjects;
-using NUnit.Framework.Internal;
 
 namespace BDD_eCommerce_Project.Support {
 
@@ -55,20 +49,7 @@ namespace BDD_eCommerce_Project.Support {
             _scenarioContext["myDriver"] = _driver;
 
             screenshotFilePath = Path.Combine(TestContext.CurrentContext.WorkDirectory);
-            _scenarioContext["screenshotFilePath"] = screenshotFilePath;        
-
-            string username = Environment.GetEnvironmentVariable("SECRET_USERNAME");        // get username from mysettings.runsettings
-            string password = Environment.GetEnvironmentVariable("SECRET_PASSWORD");        // get password from mysettings.runsettings
-            
-            try {       
-                LoginMyAccount loginMyAccount = new LoginMyAccount(_driver);
-                loginMyAccount.Login(username, password);
-                Assert.That(_driver.FindElement(By.LinkText("Log out")).Displayed);     // login with username and password
-                Console.WriteLine("Successfully logged in - Begin Test!");
-            } catch(Exception) {        
-                Console.WriteLine("Configure .runsettings with valid login credentials");
-                Assert.Fail("Login unsuccessful - Test Failed");        // assert fail if login is not successful
-            }
+            _scenarioContext["screenshotFilePath"] = screenshotFilePath;
         }
 
         [After]

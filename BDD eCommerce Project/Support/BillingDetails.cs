@@ -14,14 +14,8 @@ namespace BDD_eCommerce_Project.Support {
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
 
-        public BillingDetails(string firstName, string lastName, string streetName, string city, string postcode, string phoneNumber, string email) {
-            FirstName = firstName;
-            LastName = lastName;
-            StreetName = streetName;
-            City = city;
-            Postcode = postcode;
-            PhoneNumber = phoneNumber;
-            Email = email;
+        public BillingDetails() {
+
         }
     }
 }

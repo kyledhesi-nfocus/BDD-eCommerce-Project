@@ -81,10 +81,10 @@ namespace BDD_eCommerce_Project.Features
 #line 9
 #line hidden
 #line 10
- testRunner.Given("I have at least one product in my cart", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I am logged in as a user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 11
- testRunner.And("I am on the cart page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I am on the cart page with one product in the cart", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
         }
         
@@ -95,7 +95,7 @@ namespace BDD_eCommerce_Project.Features
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Placing an order", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 13
+#line 14
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -108,19 +108,43 @@ this.ScenarioInitialize(scenarioInfo);
 #line 9
 this.FeatureBackground();
 #line hidden
-#line 14
- testRunner.When("I click the Proceed to checkout button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
 #line 15
- testRunner.And("I enter my billing details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When("I proceed to checkout", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
+                TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                            "field",
+                            "value"});
+                table1.AddRow(new string[] {
+                            "FirstName",
+                            "Queen"});
+                table1.AddRow(new string[] {
+                            "LastName",
+                            "Charles"});
+                table1.AddRow(new string[] {
+                            "StreetName",
+                            "Buckingham Palace Road"});
+                table1.AddRow(new string[] {
+                            "City",
+                            "London"});
+                table1.AddRow(new string[] {
+                            "Postcode",
+                            "SW1A 1AA"});
+                table1.AddRow(new string[] {
+                            "PhoneNumber",
+                            "0798347190321"});
+                table1.AddRow(new string[] {
+                            "Email",
+                            "example@email.co.uk"});
 #line 16
- testRunner.When("I click the Place order button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I enter my billing details", ((string)(null)), table1, "And ");
 #line hidden
-#line 17
+#line 25
+ testRunner.When("I place the order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 26
  testRunner.Then("I should see the Order recieved page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 18
+#line 27
  testRunner.And("the order number should appear on the Orders page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }

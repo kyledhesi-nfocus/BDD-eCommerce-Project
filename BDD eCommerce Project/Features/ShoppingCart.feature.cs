@@ -81,23 +81,28 @@ namespace BDD_eCommerce_Project.Features
 #line 8
 #line hidden
 #line 9
- testRunner.Given("I am on the shop page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I am logged in as a user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 10
+ testRunner.And("I am on the shop page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
         }
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Applying a coupon")]
-        [NUnit.Framework.TestCaseAttribute("edgewords", "15", null)]
-        [NUnit.Framework.TestCaseAttribute("nfocus", "25", null)]
-        [NUnit.Framework.TestCaseAttribute("DOESNOTEXIST", "0", null)]
-        public void ApplyingACoupon(string coupon, string discount, string[] exampleTags)
+        [NUnit.Framework.TestCaseAttribute("belt", "edgewords", "15", null)]
+        [NUnit.Framework.TestCaseAttribute("sunglasses", "edgewords", "10", null)]
+        [NUnit.Framework.TestCaseAttribute("hoodie", "nfocus", "25", null)]
+        [NUnit.Framework.TestCaseAttribute("polo", "DOESNOTEXIST", "0", null)]
+        public void ApplyingACoupon(string product, string coupon, string discount, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("product", product);
             argumentsOfScenario.Add("coupon", coupon);
             argumentsOfScenario.Add("discount", discount);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Applying a coupon", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 11
+#line 12
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -110,17 +115,20 @@ this.ScenarioInitialize(scenarioInfo);
 #line 8
 this.FeatureBackground();
 #line hidden
-#line 12
- testRunner.When("I add an item to the cart", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
 #line 13
- testRunner.And("I view the cart", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When(string.Format("I add a product \'{0}\' to the cart", product), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 14
- testRunner.When(string.Format("I apply the coupon \'{0}\'", coupon), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I view the cart", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 15
+ testRunner.When(string.Format("I apply the coupon \'{0}\'", coupon), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 16
  testRunner.Then(string.Format("the discount \'{0}\' should be applied to the subtotal", discount), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 17
+ testRunner.And("the correct total should be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();

@@ -7,12 +7,23 @@ As a customer,
 
 
 Background:
-	Given I have at least one product in my cart
-	And I am on the cart page
+	Given I am logged in as a user
+	And I am on the cart page with one product in the cart
+	
 
 Scenario: Placing an order
-	When I click the Proceed to checkout button
+	When I proceed to checkout 
 	And I enter my billing details
-	When I click the Place order button
+	| field        | value                     |
+	| FirstName    | Queen                     |
+	| LastName     | Charles                   |
+	| StreetName   | Buckingham Palace Road    |
+	| City         | London                    |
+	| Postcode     | SW1A 1AA                  |
+	| PhoneNumber  | 0798347190321             |
+	| Email        | example@email.co.uk       |
+	When I place the order
 	Then I should see the Order recieved page
 	And the order number should appear on the Orders page
+
+

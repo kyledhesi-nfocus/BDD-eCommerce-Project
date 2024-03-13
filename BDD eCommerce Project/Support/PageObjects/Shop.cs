@@ -15,29 +15,24 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
         public Shop(IWebDriver driver) {
             this._driver = driver;
         }
-        public enum Product {
-            Belt,
-            HoodieWithLogo,
-            Polo,
-            Sunglasses
-        }
+
         private IWebElement _addToCartBelt => WaitForElement(_driver, 2, By.CssSelector("a.button.ajax_add_to_cart[data-product_id='28']"));
         private IWebElement _addToCartHoodieWithLogo => WaitForElement(_driver, 5, By.CssSelector("a.button.ajax_add_to_cart[data-product_id='31']"));
         private IWebElement _addToCartPolo => WaitForElement(_driver, 5, By.CssSelector("a.button.ajax_add_to_cart[data-product_id='36']"));
         private IWebElement _addToCartSunglasses => WaitForElement(_driver, 5, By.CssSelector("a.button.ajax_add_to_cart[data-product_id='30']"));
 
-        public void AddToCart(Product product) {
+        public void AddToCart(string product) {
             switch (product) {
-                case Product.Belt:
+                case "belt":
                     _addToCartBelt.Click();
                     break;
-                case Product.HoodieWithLogo:
+                case "hoodie":
                     _addToCartHoodieWithLogo.Click();
                     break;
-                case Product.Polo:
+                case "polo":
                     _addToCartPolo.Click();
                     break;
-                case Product.Sunglasses:
+                case "sunglasses":
                     _addToCartSunglasses.Click();
                     break;
                 default:
