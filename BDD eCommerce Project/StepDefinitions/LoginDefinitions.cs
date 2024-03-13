@@ -13,23 +13,28 @@ namespace BDD_eCommerce_Project.StepDefinitions {
 
         private readonly ScenarioContext _scenarioContext;
         private IWebDriver _driver;
-        private string screenshotFilePath;
-
         public LoginDefinitions(ScenarioContext scenarioContext) {
             _scenarioContext = scenarioContext;
-
             this._driver = (IWebDriver)_scenarioContext["myDriver"];
-            this.screenshotFilePath = (string)_scenarioContext["screenshotFilePath"];
         }
 
         [Given(@"I am logged in as a user")]
         public void GivenIAmLoggedIn() {
-            string username = Environment.GetEnvironmentVariable("SECRET_USERNAME");        // get username from mysettings.runsettings
-            string password = Environment.GetEnvironmentVariable("SECRET_PASSWORD");        // get password from mysettings.runsettings
+            string? username = Environment.GetEnvironmentVariable("SECRET_USERNAME");        // get username from mysettings.runsettings
+            string? password = Environment.GetEnvironmentVariable("SECRET_PASSWORD");        // get password from mysettings.runsettings
+
+            if (string.IsNullOrEmpty(username)) {
+                throw new Exception("Username is null - configure .runsettings file");
+            } else if (string.IsNullOrEmpty(password)) {
+                throw new Exception("Password is null - .configure .runsettings file");
+            }
+
             try {
                 LoginMyAccount loginMyAccount = new LoginMyAccount(_driver);
                 loginMyAccount.Login(username, password);
-                Assert.That(_driver.FindElement(By.LinkText("Log out")).Displayed);     // login with username and password
+                MyAccountDashboard myAccountDashboard = new(_driver);
+                
+                Assert.That(myAccountDashboard.LogoutLink.Displayed);
                 Console.WriteLine("Successfully logged in - Begin Test!");
             }
             catch (Exception) {

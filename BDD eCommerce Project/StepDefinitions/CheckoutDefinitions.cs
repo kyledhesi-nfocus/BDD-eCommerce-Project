@@ -2,12 +2,6 @@
 using BDD_eCommerce_Project.Support.PageObjects;
 using NUnit.Framework;
 using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TechTalk.SpecFlow.Assist;
 
 namespace BDD_eCommerce_Project.StepDefinitions {
@@ -24,7 +18,7 @@ namespace BDD_eCommerce_Project.StepDefinitions {
         private readonly OrderReceived orderReceived;
         private readonly MyAccountDashboard myAccountDashboard;
         private readonly MyAccountOrders myAccountOrders;
-        private string orderNumber;
+        private string? orderNumber;
         private string screenshotFilePath;
 
         public CheckoutDefinitions(ScenarioContext scenarioContext) {
@@ -47,8 +41,8 @@ namespace BDD_eCommerce_Project.StepDefinitions {
             navigation.ClickLink(Navigation.Link.Shop);     // navigates to the 'Shop' page
             Console.WriteLine("Successfully entered shop");
 
-            shop.AddToCart("belt");    // adds a specific product 'HoodieWithLogo' to the cart
-            Console.WriteLine($"Successfully added belt to the cart");
+            shop.AddToCart("");    // adds product 'HoodieWithLogo' to the cart
+            Console.WriteLine($"Successfully added hoodie with logo to the cart");
 
             navigation.ClickLink(Navigation.Link.Cart);     // navigates to the 'Cart' page
             Console.WriteLine("Successfully entered cart");
@@ -83,7 +77,7 @@ namespace BDD_eCommerce_Project.StepDefinitions {
         public void ThenIShouldSeeTheOrderRecievedPage() {
             try {
                 Assert.That(orderReceived.OrderRecieved(), "Unsuccessfully placed order");     // check if the order has successfully been placed
-                orderNumber += orderReceived.GetOrderNumber();   // assign Order Number displayed to orderNumber
+                orderNumber = orderReceived.GetOrderNumber();   // assign Order Number displayed to orderNumber
                 TestContext.WriteLine($"Successfully placed order with order number:{orderNumber} - Attaching Order Confirmation screenshot to report");
                 HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Order Confirmation.jpg");    // take screenshot of successful Order confirmation
                 TestContext.AddTestAttachment(screenshotFilePath + "Order Confirmation.jpg", "Order Confirmation screenshot");

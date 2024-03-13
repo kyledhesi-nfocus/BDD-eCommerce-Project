@@ -15,7 +15,7 @@ Scenario: Placing an order
 	When I proceed to checkout 
 	And I enter my billing details
 	| field        | value                     |
-	| FirstName    | Queen                     |
+	| FirstName    | King                      |
 	| LastName     | Charles                   |
 	| StreetName   | Buckingham Palace Road    |
 	| City         | London                    |

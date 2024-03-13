@@ -9,14 +9,14 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
             this._driver = driver;
         }
 
-        public IWebElement CouponCodeInput => WaitForElement(_driver, 5, By.Id("coupon_code"));
-        public IWebElement CheckoutButton => WaitForElement(_driver, 2, By.CssSelector("#post-5 .cart-collaterals .wc-proceed-to-checkout"));
-        public IWebElement RemoveItemButton => WaitForElement(_driver, 2, By.CssSelector(".remove"));
-        public IWebElement RemoveCoupon => WaitForElement(_driver, 2, By.CssSelector(".woocommerce-remove-coupon"));
-        public string CouponAlert => WaitForElement(_driver, 2, By.CssSelector("#post-5 .woocommerce-notices-wrapper")).Text;
-        public string OriginalPrice => WaitForElement(_driver, 2, By.CssSelector("#post-5 .cart-collaterals .cart-subtotal span")).Text;
-        public string ShippingPrice => WaitForElement(_driver, 2, By.CssSelector("#post-5 .cart-collaterals .woocommerce-shipping-totals.shipping span")).Text;
-        public string TotalPrice => WaitForElement(_driver, 2, (By.CssSelector("#post-5 .cart-collaterals .order-total span"))).Text;
+        public IWebElement CouponCodeInput => WaitForElement(_driver, 1, By.Id("coupon_code"));
+        public IWebElement CheckoutButton => WaitForElement(_driver, 1, By.CssSelector("#post-5 .cart-collaterals .wc-proceed-to-checkout"));
+        public IWebElement RemoveItemButton => WaitForElement(_driver, 1, By.CssSelector(".remove"));
+        public IWebElement RemoveCoupon => WaitForElement(_driver, 1, By.CssSelector(".woocommerce-remove-coupon"));
+        public string CouponAlert => WaitForElement(_driver, 1, By.CssSelector("#post-5 .woocommerce-notices-wrapper")).Text;
+        public string OriginalPrice => WaitForElement(_driver, 1, By.CssSelector("#post-5 .cart-collaterals .cart-subtotal span")).Text;
+        public string ShippingPrice => WaitForElement(_driver, 1, By.CssSelector("#post-5 .cart-collaterals .woocommerce-shipping-totals.shipping span")).Text;
+        public string TotalPrice => WaitForElement(_driver, 1, (By.CssSelector("#post-5 .cart-collaterals .order-total span"))).Text;
 
 
         public void EnterCouponCode(string coupon) {
@@ -55,7 +55,7 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
             } catch {
 
             }
-            WaitForElementDisabled(_driver, 2, By.CssSelector("blockUI.blockOverlay"));
+            WaitForElementDisabled(_driver, 1, By.CssSelector("blockUI.blockOverlay"));
             RemoveItemButton.Click();
         }
         public void Checkout() {

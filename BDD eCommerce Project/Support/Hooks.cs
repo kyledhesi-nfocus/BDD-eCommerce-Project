@@ -20,8 +20,7 @@ namespace BDD_eCommerce_Project.Support {
         [Before]
         public void Setup() {
             browser = Environment.GetEnvironmentVariable("BROWSER").ToLower();      // get browser variable from mysettings.runsettings
-            Console.WriteLine("Browser set to: " + browser);
-            
+ 
             if (browser == null) {      
                 browser = "firefox";
                 Console.WriteLine("Browser environment not set: Setting to Firefox");
@@ -42,10 +41,16 @@ namespace BDD_eCommerce_Project.Support {
                     break;
             }
 
+            Console.WriteLine($"Browser set to: {browser}");
+
             _driver.Manage().Window.Maximize();
-            string baseUrl = TestContext.Parameters["WebAppURL"];       // get website URL from mysettings.runsettings
-            _driver.Url = baseUrl;
+            string? baseUrl = TestContext.Parameters["WebAppURL"];       // get website URL from mysettings.runsettings
             
+            if (string.IsNullOrEmpty(baseUrl)) {   // Check if baseUrl is null
+                throw new WebDriverException("The baseURL is null - configure .runsettings");
+            }
+            _driver.Url = baseUrl;
+
             _scenarioContext["myDriver"] = _driver;
 
             screenshotFilePath = Path.Combine(TestContext.CurrentContext.WorkDirectory);
@@ -54,12 +59,14 @@ namespace BDD_eCommerce_Project.Support {
 
         [After]
         public void TearDown() {
-            MyAccountDashboard myAccountDashboard = new(_driver);
-            myAccountDashboard.Logout();        // logout at the end of the test
-            
-            Thread.Sleep(2000);
+            try {
+                MyAccountDashboard myAccountDashboard = new(_driver);
+                myAccountDashboard.Logout();        // logout at the end of the test
+                Console.WriteLine("Successfully logged out - Test complete!");
+            } catch {
+                Console.WriteLine("Test Complete!");
+            }
             _driver.Quit();     // quit the driver
-            Console.WriteLine("Successfully logged out - Test complete!");
         }
     }
 }

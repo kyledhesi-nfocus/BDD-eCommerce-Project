@@ -36,7 +36,8 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
                     _addToCartSunglasses.Click();
                     break;
                 default:
-                    throw new ArgumentException($"Unsupported product: {product}");
+                    _addToCartHoodieWithLogo.Click();
+                    break;
             }
         }
     }

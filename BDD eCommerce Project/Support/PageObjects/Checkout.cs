@@ -38,12 +38,12 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
             PhoneNumberInput.Clear();
             PhoneNumberInput.SendKeys(billingDetails.PhoneNumber);
             
-            WaitForElementDisabled(_driver, 2, By.CssSelector("#payment li.wc_payment_method.payment_method_cheque label"));
+            WaitForElementDisabled(_driver, 1, By.CssSelector("#payment li.wc_payment_method.payment_method_cheque label"));
             CheckPaymentsLink.Click();
         }
 
         public void PlaceOrder(){
-            WaitForElementDisabled(_driver, 2, By.CssSelector("blockUI.blockOverlay"));
+            WaitForElementDisabled(_driver, 1, By.CssSelector("blockUI.blockOverlay"));
             PlaceOrderButton.Click();
         }
     }

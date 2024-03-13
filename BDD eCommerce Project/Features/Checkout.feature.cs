@@ -116,7 +116,7 @@ this.FeatureBackground();
                             "value"});
                 table1.AddRow(new string[] {
                             "FirstName",
-                            "Queen"});
+                            "King"});
                 table1.AddRow(new string[] {
                             "LastName",
                             "Charles"});
