@@ -1,10 +1,5 @@
 ﻿using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Globalization;
 
 namespace BDD_eCommerce_Project.Support {
@@ -34,11 +29,11 @@ namespace BDD_eCommerce_Project.Support {
             var provider = new CultureInfo("en-GB");
             return decimal.Parse(str, style, provider);
         }
-        public static void TakeScreenshot(IWebDriver driver, string screenshotFile) {
+        public static void TakeScreenshot(IWebDriver driver, string screenshotFilePath) {
             ITakesScreenshot? screenshotDriver = driver as ITakesScreenshot;
-            if(screenshotDriver != null) {
+            if (screenshotDriver != null) {
                 Screenshot screenshot = screenshotDriver.GetScreenshot();
-                screenshot.SaveAsFile(screenshotFile);
+                screenshot.SaveAsFile(screenshotFilePath);
             }
         }
 
@@ -52,5 +47,6 @@ namespace BDD_eCommerce_Project.Support {
                 screenshot.SaveAsFile(screenshotFile);
             }
         }
+
     }
 }

@@ -21,30 +21,45 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
         public IWebElement PhoneNumberInput => WaitForElement(_driver,2, By.Id("billing_phone"));
         public IWebElement EmailInput => WaitForElement(_driver,2,By.Id("billing_email"));
         public IWebElement CheckPaymentsLink => WaitForElement(_driver, 2, By.CssSelector("#payment li.wc_payment_method.payment_method_cheque label"));
+        public IWebElement CashOnDeliveryLink => WaitForElement(_driver, 2, By.CssSelector("#payment li.wc_payment_method.payment_method_cod label"));
         public IWebElement PlaceOrderButton => WaitForElement(_driver, 2, By.Id("place_order"));
 
-
-        public void EnterBillingDetails(BillingDetails billingDetails) {
-            FirstNameInput.Clear();
-            FirstNameInput.SendKeys(billingDetails.FirstName);
-            LastNameInput.Clear();
-            LastNameInput.SendKeys(billingDetails.LastName);
-            StreetNameInput.Clear();
-            StreetNameInput.SendKeys(billingDetails.StreetName);
-            CityInput.Clear();
-            CityInput.SendKeys(billingDetails.City);
-            PostcodeInput.Clear();
-            PostcodeInput.SendKeys(billingDetails.Postcode);
-            PhoneNumberInput.Clear();
-            PhoneNumberInput.SendKeys(billingDetails.PhoneNumber);
-            
-            WaitForElementDisabled(_driver, 1, By.CssSelector("#payment li.wc_payment_method.payment_method_cheque label"));
-            CheckPaymentsLink.Click();
+        public bool EnterBillingDetails(BillingDetails billingDetails) {
+            // Check each field and return false immediately if any field is not properly filled
+            if (!ClearAndEnterKeys(FirstNameInput, billingDetails.FirstName!) ||
+                !ClearAndEnterKeys(LastNameInput, billingDetails.LastName!) ||
+                !ClearAndEnterKeys(StreetNameInput, billingDetails.StreetName!) ||
+                !ClearAndEnterKeys(CityInput, billingDetails.City!) ||
+                !ClearAndEnterKeys(PostcodeInput, billingDetails.Postcode!) ||
+                !ClearAndEnterKeys(EmailInput, billingDetails.Email!)) {
+                return false; // Return false if any field check fails
+            }
+            return true; // Return true if all field checks pass
         }
 
-        public void PlaceOrder(){
+        public bool ClearAndEnterKeys(IWebElement inputField, string billingDetailsInput) {
+            inputField.Clear();
+            if (string.IsNullOrEmpty(billingDetailsInput)) {
+                return false;
+            } else {
+                inputField.SendKeys(billingDetailsInput);
+                return true;
+            }
+        }
+
+        public void ClickPaymentMethod(string paymentMethod) {
+            if (paymentMethod == "Check payments") {
+                WaitForElementDisabled(_driver, 1, By.CssSelector("#payment li.wc_payment_method.payment_method_cheque label"));
+                CheckPaymentsLink.Click();
+            }
+            else {
+                CashOnDeliveryLink.Click();
+            }
+        }
+        public void ClickPlaceOrderButton(){
             WaitForElementDisabled(_driver, 1, By.CssSelector("blockUI.blockOverlay"));
             PlaceOrderButton.Click();
         }
+
     }
 }

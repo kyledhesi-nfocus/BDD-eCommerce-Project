@@ -14,9 +14,6 @@ namespace BDD_eCommerce_Project.StepDefinitions {
     public class ShoppingCartDefinitions {
         private readonly ScenarioContext _scenarioContext;
         private IWebDriver driver;
-        private readonly Navigation navigation;
-        private readonly Shop shop;
-        private readonly Cart cart;
         private string screenshotFilePath;
         private decimal originalPrice;
         private decimal reducedAmount;
@@ -29,9 +26,6 @@ namespace BDD_eCommerce_Project.StepDefinitions {
 
             this.driver = (IWebDriver)_scenarioContext["myDriver"];
             this.screenshotFilePath = (string)_scenarioContext["screenshotFilePath"];
-            this.navigation = new(driver);
-            this.shop = new(driver);
-            this.cart = new(driver);
 
             this.originalPrice = 0.0m;
             this.reducedAmount = 0.0m;
@@ -42,30 +36,34 @@ namespace BDD_eCommerce_Project.StepDefinitions {
 
         [Given(@"I am on the shop page")]
         public void GivenIAmOnTheShopPage() {
+            Navigation navigation = new(driver);
             navigation.ClickLink(Navigation.Link.Shop);     // navigate to the 'Shop' page
             Console.WriteLine("Successfully entered shop");
         }
 
         [When(@"I add a product '(.*)' to the cart")]
         public void WhenIAddAProductToTheCart(string product) {
-            shop.AddToCart(product);    // adds a specific product 'Sunglasses' to the cart
+            Shop shop = new(driver);
+            shop.AddProductToCart(product);    // adds a specific product 'Sunglasses' to the cart
             Console.WriteLine($"Successfully added item {product} to the cart");
         }
 
         [When(@"I view the cart")]
         public void WhenIViewTheCart() {
+            Navigation navigation = new(driver);
             navigation.ClickLink(Navigation.Link.Cart);     // navigate to the 'Cart' page
             Console.WriteLine("Successfully entered cart");
         }
 
         [When(@"I apply the coupon '(.*)'")]
         public void WhenIApplyTheCoupon(string coupon) {
+            Cart cart = new(driver);
             try {
                 cart.EnterCouponCode(coupon);   // enter and submit the coupon code into field
                 cart.WaitForAlert();
-                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Coupon Applied.jpg");    // take screenshot of coupon being applied confirmation
+                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Coupon Applied.png");    // take screenshot of coupon being applied confirmation
                 TestContext.WriteLine($"Attaching screenshot to report");
-                TestContext.AddTestAttachment(screenshotFilePath + "Coupon Applied.jpg", "Coupon applied");
+                TestContext.AddTestAttachment(screenshotFilePath + "Coupon Applied.png", "Coupon applied");
 
                 Console.WriteLine($"Successfully applied coupon:{coupon}");
             } catch (Exception) {
@@ -75,8 +73,11 @@ namespace BDD_eCommerce_Project.StepDefinitions {
 
         [Then(@"the discount '(.*)' should be applied to the subtotal")]
         public void ThenTheDiscountShouldBeAppliedToTheSubtotal(decimal discount) {
+            Cart cart = new(driver);
+            Navigation navigation = new(driver);
+
             originalPrice = cart.GetOriginalPrice(); // get orignal price
-            
+    
             try {
                 reducedAmount += cart.GetReducedAmount();     // get reduced amount and updated reducedAmount
             } catch (Exception) {
@@ -102,7 +103,9 @@ namespace BDD_eCommerce_Project.StepDefinitions {
 
         [Then(@"the correct total should be displayed")]
         public void ThenTheCorrectTotalShouldBeDisplayed(){
-            
+            Cart cart = new(driver);
+            Navigation navigation = new(driver);
+
             shippingPrice = cart.GetShippingPrice(); // get shipping price
             totalPrice = cart.GetTotalPrice(); // get total price
 

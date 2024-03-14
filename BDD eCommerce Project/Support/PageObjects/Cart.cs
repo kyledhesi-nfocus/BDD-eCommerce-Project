@@ -58,7 +58,7 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
             WaitForElementDisabled(_driver, 1, By.CssSelector("blockUI.blockOverlay"));
             RemoveItemButton.Click();
         }
-        public void Checkout() {
+        public void ClickCheckoutButton() {
             CheckoutButton.Click();
         }
 

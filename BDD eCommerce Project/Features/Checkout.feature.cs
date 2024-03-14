@@ -139,12 +139,15 @@ this.FeatureBackground();
  testRunner.And("I enter my billing details", ((string)(null)), table1, "And ");
 #line hidden
 #line 25
- testRunner.When("I place the order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I select the payment method \'Check payments\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 26
- testRunner.Then("I should see the Order recieved page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I place the order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 27
+ testRunner.Then("I should see the Order recieved page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 28
  testRunner.And("the order number should appear on the Orders page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }

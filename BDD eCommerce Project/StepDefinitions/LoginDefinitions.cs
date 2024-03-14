@@ -1,16 +1,10 @@
 ﻿using BDD_eCommerce_Project.Support.PageObjects;
 using NUnit.Framework;
 using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BDD_eCommerce_Project.StepDefinitions {
     [Binding]
     internal class LoginDefinitions {
-
         private readonly ScenarioContext _scenarioContext;
         private IWebDriver _driver;
         public LoginDefinitions(ScenarioContext scenarioContext) {

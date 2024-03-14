@@ -21,7 +21,7 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
         private IWebElement _addToCartPolo => WaitForElement(_driver, 5, By.CssSelector("a.button.ajax_add_to_cart[data-product_id='36']"));
         private IWebElement _addToCartSunglasses => WaitForElement(_driver, 5, By.CssSelector("a.button.ajax_add_to_cart[data-product_id='30']"));
 
-        public void AddToCart(string product) {
+        public void AddProductToCart(string product) {
             switch (product) {
                 case "belt":
                     _addToCartBelt.Click();

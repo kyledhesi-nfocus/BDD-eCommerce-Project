@@ -22,8 +22,11 @@ Scenario: Placing an order
 	| Postcode     | SW1A 1AA                  |
 	| PhoneNumber  | 0798347190321             |
 	| Email        | example@email.co.uk       |
+	And I select the payment method 'Check payments'
 	When I place the order
 	Then I should see the Order recieved page
 	And the order number should appear on the Orders page
 
+
+	
 
