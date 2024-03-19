@@ -28,8 +28,15 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
             _passwordField.Click();
             _passwordField.SendKeys(password);
 
-            _dismiss.Click();
             _loginButton.Click();
+        }
+
+        public void DismissBanner() {
+            try {
+                _dismiss.Click();
+            } catch {
+
+            }
         }
     }
 }

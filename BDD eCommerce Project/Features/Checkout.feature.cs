@@ -84,7 +84,10 @@ namespace BDD_eCommerce_Project.Features
  testRunner.Given("I am logged in as a user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 11
- testRunner.And("I am on the cart page with one product in the cart", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I add a product to the cart", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 12
+ testRunner.And("I proceed to checkout", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
         }
         
@@ -95,7 +98,7 @@ namespace BDD_eCommerce_Project.Features
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Placing an order", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 14
+#line 15
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -107,9 +110,6 @@ this.ScenarioInitialize(scenarioInfo);
                 this.ScenarioStart();
 #line 9
 this.FeatureBackground();
-#line hidden
-#line 15
- testRunner.When("I proceed to checkout", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
                 TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
                             "field",
@@ -136,7 +136,7 @@ this.FeatureBackground();
                             "Email",
                             "example@email.co.uk"});
 #line 16
- testRunner.And("I enter my billing details", ((string)(null)), table1, "And ");
+ testRunner.Given("I enter my billing details", ((string)(null)), table1, "Given ");
 #line hidden
 #line 25
  testRunner.And("I select the payment method \'Check payments\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");

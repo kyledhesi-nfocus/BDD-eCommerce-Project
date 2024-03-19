@@ -3,6 +3,7 @@ using BDD_eCommerce_Project.Support.PageObjects;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using TechTalk.SpecFlow.Assist;
+using TechTalk.SpecFlow.Infrastructure;
 
 namespace BDD_eCommerce_Project.StepDefinitions {
     [Binding]
@@ -12,72 +13,81 @@ namespace BDD_eCommerce_Project.StepDefinitions {
         private IWebDriver driver;
         private string? orderNumber;
         private string screenshotFilePath;
-
-        public CheckoutDefinitions(ScenarioContext scenarioContext) {
+        private readonly ISpecFlowOutputHelper _specFlowOutputHelper;
+        public CheckoutDefinitions(ScenarioContext scenarioContext, ISpecFlowOutputHelper specFlowOutputHelper) {
             _scenarioContext = scenarioContext;
+            _specFlowOutputHelper = specFlowOutputHelper;
             this.driver = (IWebDriver)_scenarioContext["myDriver"];
-            this.screenshotFilePath = (string)_scenarioContext["screenshotFilePath"];
+            this.screenshotFilePath = (string)_scenarioContext["screenshotFilePath"];     
         }
 
-        [Given(@"I am on the cart page with one product in the cart")]
-        public void GivenIAmOnTheCartPageWithOneProduct() {
+        [Given(@"I add a product to the cart")]
+        public void GivenIAddAProductToTheCart() {
             Navigation navigation = new(driver);
             navigation.ClickLink(Navigation.Link.Shop);     // navigates to the 'Shop' page
-            Console.WriteLine("Successfully entered shop");
-
+            
             Shop shop = new(driver);
-            shop.AddProductToCart("");    // adds product 'HoodieWithLogo' to the cart
-            Console.WriteLine($"Successfully added hoodie with logo to the cart");
+           _specFlowOutputHelper.WriteLine("Successfully entered shop");
+            
+            if (shop.AddProductToCart("")) {
+                _specFlowOutputHelper.WriteLine($"Successfully added item to the cart");
+            }
+            else {
+                Assert.Fail($"Unsuccessfully added item to the cart");
+            }
 
             navigation.ClickLink(Navigation.Link.Cart);     // navigates to the 'Cart' page
-            Console.WriteLine("Successfully entered cart");
+            _specFlowOutputHelper.WriteLine("Successfully entered cart");
         }
 
-        [When(@"I proceed to checkout")]
-        public void WhenIProceedToCheckout() {
+        [Given(@"I proceed to checkout")]
+        public void GivenIProceedToCheckout() {
             Cart cart = new(driver);
             cart.ClickCheckoutButton();    // clicks the 'Proceed to checkout' button
-            Console.WriteLine("Successfully entered checkout");
+            _specFlowOutputHelper.WriteLine("Successfully entered checkout");
         }
 
-        [When(@"I enter my billing details")]
-        public void WhenIEnterMyBillingDetails(Table billingDetailsTable) {
+        [Given(@"I enter my billing details")]
+        public void GivenIEnterMyBillingDetails(Table billingDetailsTable) {
             Checkout checkout = new(driver);
             BillingDetails billingDetails = billingDetailsTable.CreateInstance<BillingDetails>();
-            
-            Assert.That(checkout.EnterBillingDetails(billingDetails), "Unsuccessfully entered billing details into input fields");   // enters the billing details into fields
-            Console.WriteLine("Successfully entered billing details - Attaching screenshot to report");
-            HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Billing Details Filled.png");   // take screenshot of billing details
-            TestContext.AddTestAttachment(screenshotFilePath + "Billing Details Filled.png", "Billing details applied");
+            try {
+                Assert.That(checkout.EnterBillingDetails(billingDetails), "Unsuccessfully entered billing details into input fields");   // enters the billing details into fields
+                _specFlowOutputHelper.WriteLine("Successfully entered billing details");
+            } catch (AssertionException) {
+                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Billing Details Exception.png", false);   // take screenshot of billing details
+                _specFlowOutputHelper.AddAttachment(screenshotFilePath + "Billing Details Exception.png");
+                throw;
+            }
         }
 
-        [When(@"I select the payment method '(.*)'")]
-        public void WhenISelectThePaymentMethod(string paymentMethod) {
+        [Given(@"I select the payment method '(.*)'")]
+        public void GivenISelectThePaymentMethod(string paymentMethod) {
             Checkout checkout = new(driver);
             checkout.ClickPaymentMethod(paymentMethod);
+            _specFlowOutputHelper.WriteLine($"Successfully clicked payment method: {paymentMethod}");
         }
 
         [When(@"I place the order")]
         public void WhenIPlaceTheOrder(){
             Checkout checkout = new(driver);
             checkout.ClickPlaceOrderButton();  // clicks the 'Place order' button
-            Console.WriteLine("Successfully clicked Place order button");
+            _specFlowOutputHelper.WriteLine("Successfully clicked Place order button");
         }
 
         [Then(@"I should see the Order recieved page")]
         public void ThenIShouldSeeTheOrderRecievedPage() {
             OrderReceived orderReceived = new(driver);
-
             try {
                 Assert.That(orderReceived.WaitForOrderRecievedConfirmaion(), "Unsuccessfully placed order");     // check if the order has successfully been placed
                 orderNumber = orderReceived.GetOrderNumber();   // assign Order Number displayed to orderNumber
-                TestContext.WriteLine($"Successfully placed order with order number:{orderNumber} - Attaching Order Confirmation screenshot to report");
-                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Order Confirmation.png");    // take screenshot of successful Order confirmation
-                TestContext.AddTestAttachment(screenshotFilePath + "Order Confirmation.png", "Order Confirmation screenshot");
+                _specFlowOutputHelper.WriteLine($"Successfully placed order with order number:{orderNumber} - Attaching Order Confirmation screenshot to report");
+                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Order Confirmation.png", false);    // take screenshot of successful Order confirmation
+                _specFlowOutputHelper.AddAttachment(screenshotFilePath + "Order Confirmation.png");
             } catch(Exception) {
-                TestContext.WriteLine("Attaching screenshot to report");
-                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Order Confirmation Error.png");  // take screenshot of unsuccessful Order confirmation
-                TestContext.AddTestAttachment(screenshotFilePath + "Order Confirmation Error.png", "Order Confirmation Error screenshot"); 
+                _specFlowOutputHelper.WriteLine("Attaching screenshot to report");
+                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Order Confirmation Error.png", false);  // take screenshot of unsuccessful Order confirmation
+                _specFlowOutputHelper.AddAttachment(screenshotFilePath + "Order Confirmation Error.png"); 
             }
         }
 
@@ -85,22 +95,26 @@ namespace BDD_eCommerce_Project.StepDefinitions {
         public void ThenTheOrderNumberShouldAppearOnTheOrdersPage() {
             Navigation navigation = new(driver);
             navigation.ClickLink(Navigation.Link.MyAccount);    // naviagate to 'My account' page
-            
-            MyAccountDashboard myAccountDashboard = new(driver);
-            myAccountDashboard.ViewOrders();    // click Orders link to view all orders
 
+            MyAccountDashboard myAccountDashboard = new(driver);
+            _specFlowOutputHelper.WriteLine("Successfully entered My account");
+
+            myAccountDashboard.ViewOrders();    // click Orders link to view all orders
             MyAccountOrders myAccountOrders = new(driver);
+
+            _specFlowOutputHelper.WriteLine("Successfully entered Orders page");
+
             string OrderID = myAccountOrders.GetOrderID();  // get and assign the most recent Order ID to OrderID
 
             try {
                 Assert.That(orderNumber, Is.EqualTo(OrderID), "Unsuccessfully displayed latest order");    // check if OrderID matches with orderNumber
-                TestContext.WriteLine($"Successfully displayed latest order: Order number displayed {OrderID} | Expected order number: {orderNumber} - Attaching Orders screenshot to report");
-                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "All Orders.png");    // take screenshot of all Orders
-                TestContext.AddTestAttachment(screenshotFilePath + "All Orders.png", "All Orders screenshot");
-                myAccountOrders.Dashboard(); // navigate to 'My account' dashboard
+                _specFlowOutputHelper.WriteLine($"Successfully displayed latest order: Order number displayed {OrderID} | Expected order number: {orderNumber} - Attaching Orders screenshot to report");
+                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "All Orders.png", false);    // take screenshot of all Orders
+                _specFlowOutputHelper.AddAttachment(screenshotFilePath + "All Orders.png");
             } catch {
-                TestContext.WriteLine($"Order number displayed {OrderID} | Expected order number: {orderNumber}");
-            }   
+                _specFlowOutputHelper.WriteLine($"Order number displayed {OrderID} | Expected order number: {orderNumber}");
+            }
+
         }
     }
 }

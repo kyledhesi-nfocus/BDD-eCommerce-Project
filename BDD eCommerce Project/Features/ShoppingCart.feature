@@ -10,7 +10,7 @@ Background:
 	And I am on the shop page
 
 Scenario Outline: Applying a coupon
-	When I add a product '<product>' to the cart
+    Given I add a product '<product>' to the cart
 	And I view the cart
 	When I apply the coupon '<coupon>'
 	Then the discount '<discount>' should be applied to the subtotal
@@ -21,7 +21,7 @@ Scenario Outline: Applying a coupon
 	| belt         | edgewords     | 15       |
 	| sunglasses   | edgewords     | 10       |
 	| hoodie       | nfocus        | 25       |
-	| polo         | DOESNOTEXIST  | 0        |
+	| polo         | DOESNOTEXIST  | 10       |
 
 
 

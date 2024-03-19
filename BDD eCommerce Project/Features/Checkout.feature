@@ -8,12 +8,12 @@ As a customer,
 
 Background:
 	Given I am logged in as a user
-	And I am on the cart page with one product in the cart
+	And I add a product to the cart
+	And I proceed to checkout
 	
 
 Scenario: Placing an order
-	When I proceed to checkout 
-	And I enter my billing details
+	Given I enter my billing details
 	| field        | value                     |
 	| FirstName    | King                      |
 	| LastName     | Charles                   |

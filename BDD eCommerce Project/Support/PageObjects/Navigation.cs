@@ -36,8 +36,7 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
 
         // Method to click on a link based on the Enum
         public void ClickLink(Link link) {
-            Thread.Sleep(1000); // Consider replacing with a more robust waiting strategy
-
+            Thread.Sleep(1000);
             switch (link) {
                 case Link.Home:
                     HomeLink.Click();

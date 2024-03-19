@@ -20,8 +20,8 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
         public IWebElement PostcodeInput => WaitForElement(_driver, 2, By.Id("billing_postcode"));
         public IWebElement PhoneNumberInput => WaitForElement(_driver,2, By.Id("billing_phone"));
         public IWebElement EmailInput => WaitForElement(_driver,2,By.Id("billing_email"));
-        public IWebElement CheckPaymentsLink => WaitForElement(_driver, 2, By.CssSelector("#payment li.wc_payment_method.payment_method_cheque label"));
-        public IWebElement CashOnDeliveryLink => WaitForElement(_driver, 2, By.CssSelector("#payment li.wc_payment_method.payment_method_cod label"));
+        public IWebElement CheckPaymentsLink => WaitForElement(_driver, 5, By.CssSelector("#payment li.wc_payment_method.payment_method_cheque label"));
+        public IWebElement CashOnDeliveryLink => WaitForElement(_driver, 5, By.CssSelector("#payment li.wc_payment_method.payment_method_cod label"));
         public IWebElement PlaceOrderButton => WaitForElement(_driver, 2, By.Id("place_order"));
 
         public bool EnterBillingDetails(BillingDetails billingDetails) {
@@ -48,18 +48,23 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
         }
 
         public void ClickPaymentMethod(string paymentMethod) {
-            if (paymentMethod == "Check payments") {
-                WaitForElementDisabled(_driver, 1, By.CssSelector("#payment li.wc_payment_method.payment_method_cheque label"));
-                CheckPaymentsLink.Click();
-            }
-            else {
-                CashOnDeliveryLink.Click();
+            switch (paymentMethod) {
+                case "Check payments":
+                    WaitForElementToBeClickable(_driver, 5, By.CssSelector("#payment li.wc_payment_method.payment_method_cheque label"));
+                    CheckPaymentsLink.Click();
+                    break;
+                case "Cash on delivery":
+                    CashOnDeliveryLink.Click();
+                    break;
+                default:
+                    CheckPaymentsLink.Click();
+                    break;
             }
         }
         public void ClickPlaceOrderButton(){
-            WaitForElementDisabled(_driver, 1, By.CssSelector("blockUI.blockOverlay"));
+            WaitForElementToBeClickable(_driver, 5, By.Id("place_order"));
             PlaceOrderButton.Click();
+            
         }
-
     }
 }

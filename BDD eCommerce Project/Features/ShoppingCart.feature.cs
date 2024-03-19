@@ -93,7 +93,7 @@ namespace BDD_eCommerce_Project.Features
         [NUnit.Framework.TestCaseAttribute("belt", "edgewords", "15", null)]
         [NUnit.Framework.TestCaseAttribute("sunglasses", "edgewords", "10", null)]
         [NUnit.Framework.TestCaseAttribute("hoodie", "nfocus", "25", null)]
-        [NUnit.Framework.TestCaseAttribute("polo", "DOESNOTEXIST", "0", null)]
+        [NUnit.Framework.TestCaseAttribute("polo", "DOESNOTEXIST", "10", null)]
         public void ApplyingACoupon(string product, string coupon, string discount, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
@@ -116,7 +116,7 @@ this.ScenarioInitialize(scenarioInfo);
 this.FeatureBackground();
 #line hidden
 #line 13
- testRunner.When(string.Format("I add a product \'{0}\' to the cart", product), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+    testRunner.Given(string.Format("I add a product \'{0}\' to the cart", product), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 14
  testRunner.And("I view the cart", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");

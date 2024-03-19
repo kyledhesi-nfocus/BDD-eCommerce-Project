@@ -25,6 +25,7 @@ namespace BDD_eCommerce_Project.StepDefinitions {
 
             try {
                 LoginMyAccount loginMyAccount = new LoginMyAccount(_driver);
+                loginMyAccount.DismissBanner();
                 loginMyAccount.Login(username, password);
                 MyAccountDashboard myAccountDashboard = new(_driver);
                 

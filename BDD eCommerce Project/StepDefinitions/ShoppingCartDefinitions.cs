@@ -1,13 +1,7 @@
 ﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using BDD_eCommerce_Project.Support.PageObjects;
 using BDD_eCommerce_Project.Support;
-using NUnit.Framework.Internal;
 
 namespace BDD_eCommerce_Project.StepDefinitions {
     [Binding]
@@ -19,8 +13,6 @@ namespace BDD_eCommerce_Project.StepDefinitions {
         private decimal reducedAmount;
         private decimal shippingPrice;
         private decimal totalPrice;
-        private decimal couponDiscount;
-
         public ShoppingCartDefinitions(ScenarioContext scenarioContext) {
             _scenarioContext = scenarioContext;
 
@@ -31,25 +23,27 @@ namespace BDD_eCommerce_Project.StepDefinitions {
             this.reducedAmount = 0.0m;
             this.shippingPrice = 0.0m;
             this.totalPrice = 0.0m;
-            this.couponDiscount = 0.0m;
         }
 
         [Given(@"I am on the shop page")]
-        public void GivenIAmOnTheShopPage() {
+        public void GivenIamOnThePage() {
             Navigation navigation = new(driver);
             navigation.ClickLink(Navigation.Link.Shop);     // navigate to the 'Shop' page
             Console.WriteLine("Successfully entered shop");
         }
 
-        [When(@"I add a product '(.*)' to the cart")]
-        public void WhenIAddAProductToTheCart(string product) {
+        [Given(@"I add a product '(.*)' to the cart")]
+        public void GivenIAddAProductToTheCart(string product) {
             Shop shop = new(driver);
-            shop.AddProductToCart(product);    // adds a specific product 'Sunglasses' to the cart
-            Console.WriteLine($"Successfully added item {product} to the cart");
+            if (shop.AddProductToCart(product)) {
+                Console.WriteLine($"Successfully added item {product} to the cart");
+            } else {
+                Assert.Fail($"Unsuccessfully added item to the cart");
+            }
         }
 
-        [When(@"I view the cart")]
-        public void WhenIViewTheCart() {
+        [Given(@"I view the cart")]
+        public void GivenIViewTheCart() {
             Navigation navigation = new(driver);
             navigation.ClickLink(Navigation.Link.Cart);     // navigate to the 'Cart' page
             Console.WriteLine("Successfully entered cart");
@@ -60,51 +54,34 @@ namespace BDD_eCommerce_Project.StepDefinitions {
             Cart cart = new(driver);
             try {
                 cart.EnterCouponCode(coupon);   // enter and submit the coupon code into field
-                cart.WaitForAlert();
-                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Coupon Applied.png");    // take screenshot of coupon being applied confirmation
-                TestContext.WriteLine($"Attaching screenshot to report");
-                TestContext.AddTestAttachment(screenshotFilePath + "Coupon Applied.png", "Coupon applied");
-
-                Console.WriteLine($"Successfully applied coupon:{coupon}");
+                reducedAmount += cart.GetReducedAmount();
+                TestContext.WriteLine($"Successfully entered coupon:{coupon} - Attaching screenshot to report");
             } catch (Exception) {
-                Assert.Fail("Unsuccessfully entered coupon");   // assert fail if the coupon is not entered and submitted
+                if (string.IsNullOrEmpty(coupon)) {
+                    Console.WriteLine("Coupon is null");
+                }
+                Assert.Fail($"Unsuccessfully applied coupon: {coupon} to subtotal");  // assert fail if the coupon has not been applied to the cart    
             }
         }
 
         [Then(@"the discount '(.*)' should be applied to the subtotal")]
         public void ThenTheDiscountShouldBeAppliedToTheSubtotal(decimal discount) {
             Cart cart = new(driver);
-            Navigation navigation = new(driver);
-
-            originalPrice = cart.GetOriginalPrice(); // get orignal price
-    
-            try {
-                reducedAmount += cart.GetReducedAmount();     // get reduced amount and updated reducedAmount
-            } catch (Exception) {
-                TestContext.WriteLine($"Unsuccessfully applied coupon: to subtotal");
-                cart.RemoveCouponAndItem();
-                navigation.ClickLink(Navigation.Link.MyAccount);
-                Assert.Fail($"Invalid coupon");  // assert fail if the coupon has not been applied to the cart
-            }
             
-            couponDiscount = discount;    // initalise variable to store discount from a the coupon
-            decimal discountAmount = originalPrice * (couponDiscount / 100); // value to be compared with reducedAmount
+            originalPrice = cart.GetOriginalPrice(); // get orignal price
+            decimal discountAmount = originalPrice * (discount / 100); // value to be compared with reducedAmount
         
             try {
-                Assert.That(reducedAmount, Is.EqualTo(discountAmount), $"Unsuccessfully reduced {couponDiscount}% from {originalPrice}");     // check if the amount reduced value is correct and matches with the expected coupon discount
-                Console.WriteLine($"Successfully reduced {couponDiscount}% from original price");
-                TestContext.WriteLine($"Subtotal price displayed: {originalPrice} | Reduced amount displayed: {reducedAmount}");
+                Assert.That(reducedAmount, Is.EqualTo(discountAmount), $"Unsuccessfully reduced {discount}% from {originalPrice}");     // check if the amount reduced value is correct and matches with the expected coupon discount
+                Console.WriteLine($"Successfully reduced {discount}% from original price\nSubtotal price displayed: {originalPrice} | Reduced amount displayed: {reducedAmount}");
             } catch {
-                TestContext.WriteLine($"Coupon should give {couponDiscount}%: Subtotal price: {originalPrice} | Reduced amount: {reducedAmount} | Expected reduced amount: {discountAmount} - Attaching screenshot to report");
-                HelperLibrary.ScrollAndTakeScreenshot(driver, screenshotFilePath + "Subtotal discount error.jpg");
-                TestContext.AddTestAttachment(screenshotFilePath + "Subtotal discount error.jpg", "Discount error");
+                TestContext.WriteLine($"Coupon should give {discount}%: Subtotal price: {originalPrice} | Reduced amount: {reducedAmount} | Expected reduced amount: {discountAmount} - Attaching screenshot to report");
             }
         }
 
         [Then(@"the correct total should be displayed")]
         public void ThenTheCorrectTotalShouldBeDisplayed(){
             Cart cart = new(driver);
-            Navigation navigation = new(driver);
 
             shippingPrice = cart.GetShippingPrice(); // get shipping price
             totalPrice = cart.GetTotalPrice(); // get total price
@@ -112,23 +89,15 @@ namespace BDD_eCommerce_Project.StepDefinitions {
             decimal total = (originalPrice - reducedAmount) + shippingPrice; // value to be compared with totalPrice
 
             try { 
-                Assert.That(total, Is.EqualTo(totalPrice), "Unsuccessfully calculated total after coupon & shipping");     // check if the cart totals successfully add up to the overall total 
-                Console.WriteLine("Successfully calculated total after coupon & shippping");
-                HelperLibrary.ScrollAndTakeScreenshot(driver, screenshotFilePath + "Cart overview.jpg");
-                TestContext.WriteLine($"Total price displayed {totalPrice} | (original price {originalPrice} - reduced amount {reducedAmount}) + shipping cost {shippingPrice} - Attaching screenshot to report");
+                Assert.That(totalPrice, Is.EqualTo(total), "Unsuccessfully calculated total after coupon & shipping");     // check if the cart totals successfully add up to the overall total 
+                Console.WriteLine($"Successfully calculated total after coupon & shippping\nTotal price displayed {totalPrice} | (original price {originalPrice} - reduced amount {reducedAmount}) + shipping cost {shippingPrice} - Attaching screenshot to report");
+                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Cart overview.jpg", true);
                 TestContext.AddTestAttachment(screenshotFilePath + "Cart overview.jpg", "Cart overview");
-            }
-            catch {
+            } catch {
                 TestContext.WriteLine($"Total price displayed {totalPrice} | Expected value: {total} - Attaching screenshot to report");
-                HelperLibrary.ScrollAndTakeScreenshot(driver, screenshotFilePath + "Total error.jpg");
+                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Total error.jpg", true);
                 TestContext.AddTestAttachment(screenshotFilePath + "Total error.jpg", "Calculating total error");
             }
-
-            cart.RemoveCouponAndItem();     // remove the coupon and item
-            Console.WriteLine("Successfully removed items");
-
-            navigation.ClickLink(Navigation.Link.MyAccount);    // navigate to 'My account' page
-            Console.WriteLine("Successfully entered My account");
         }
     }
 }

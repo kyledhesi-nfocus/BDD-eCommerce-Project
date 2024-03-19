@@ -5,6 +5,7 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Chrome;
 using BDD_eCommerce_Project.Support.PageObjects;
 using System.Reflection;
+using System.Linq.Expressions;
 
 namespace BDD_eCommerce_Project.Support {
 
@@ -13,7 +14,6 @@ namespace BDD_eCommerce_Project.Support {
         private IWebDriver? _driver;
         private readonly ScenarioContext _scenarioContext;
         private string? browser;
-        private string? screenshotFilePath;
         public Hooks (ScenarioContext scenarioContext) {
             _scenarioContext = scenarioContext;
         }
@@ -21,14 +21,14 @@ namespace BDD_eCommerce_Project.Support {
         [Before]
         public void Setup() {
             
-            browser = Environment.GetEnvironmentVariable("BROWSER")!.ToLower();      // get browser variable from mysettings.runsettings
+            browser = Environment.GetEnvironmentVariable("BROWSER");      // get browser variable from mysettings.runsettings
             
             if (browser == null) {      
                 browser = "firefox";
                 Console.WriteLine("Browser environment not set: Setting to Firefox");
             } 
 
-            switch (browser) {      // calls driver depending on browser variable
+            switch (browser.ToLower()) {      // calls driver depending on browser variable
                 case "edge":
                     _driver = new EdgeDriver();
                     break;
@@ -62,13 +62,28 @@ namespace BDD_eCommerce_Project.Support {
 
         [After]
         public void TearDown() {
+            MyAccountDashboard myAccountDashboard = new(_driver!);
+            Cart cart = new(_driver!);
+            Navigation navigation = new(_driver!);
+            
+            Console.WriteLine("Test Complete - Begin Teardown...");
+            
+            navigation.ClickLink(Navigation.Link.Cart);
+            
+            Console.WriteLine("Checking if cart is empty...");
+            
             try {
-                MyAccountDashboard myAccountDashboard = new(_driver!);
-                myAccountDashboard.Logout();        // logout at the end of the test
-                Console.WriteLine("Successfully logged out - Test complete!");
+                cart.ClearCart();
             } catch {
-                Console.WriteLine("Test Complete!");
+
             }
+
+            Console.WriteLine("Cart is empty - Logging out...");
+            
+            navigation.ClickLink(Navigation.Link.MyAccount);
+            myAccountDashboard.Logout();        // logout at the end of the test
+            Console.WriteLine("Successfully logged out - Teardown Complete!");
+            
             _driver!.Quit();     // quit the driver
         }
     }
