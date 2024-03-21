@@ -1,9 +1,4 @@
 ﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static BDD_eCommerce_Project.Support.HelperLibrary;
 
 namespace BDD_eCommerce_Project.Support.PageObjects {
@@ -13,16 +8,16 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
             this._driver = driver;
         }
 
-        public IWebElement FirstNameInput => WaitForElement(_driver, 2, By.Id("billing_first_name"));
-        public IWebElement LastNameInput => WaitForElement(_driver, 2, By.Id("billing_last_name"));
-        public IWebElement StreetNameInput => WaitForElement(_driver, 2, By.Id("billing_address_1"));
-        public IWebElement CityInput => WaitForElement(_driver, 2, By.Id("billing_city"));
-        public IWebElement PostcodeInput => WaitForElement(_driver, 2, By.Id("billing_postcode"));
-        public IWebElement PhoneNumberInput => WaitForElement(_driver,2, By.Id("billing_phone"));
-        public IWebElement EmailInput => WaitForElement(_driver,2,By.Id("billing_email"));
-        public IWebElement CheckPaymentsLink => WaitForElement(_driver, 5, By.CssSelector("#payment li.wc_payment_method.payment_method_cheque label"));
-        public IWebElement CashOnDeliveryLink => WaitForElement(_driver, 5, By.CssSelector("#payment li.wc_payment_method.payment_method_cod label"));
-        public IWebElement PlaceOrderButton => WaitForElement(_driver, 2, By.Id("place_order"));
+        public IWebElement FirstNameInput => WaitForElement(_driver, 3, By.Id("billing_first_name"));
+        public IWebElement LastNameInput => WaitForElement(_driver, 3, By.Id("billing_last_name"));
+        public IWebElement StreetNameInput => WaitForElement(_driver, 3, By.Id("billing_address_1"));
+        public IWebElement CityInput => WaitForElement(_driver, 3, By.Id("billing_city"));
+        public IWebElement PostcodeInput => WaitForElement(_driver, 3, By.Id("billing_postcode"));
+        public IWebElement PhoneNumberInput => WaitForElement(_driver, 3, By.Id("billing_phone"));
+        public IWebElement EmailInput => WaitForElement(_driver, 3, By.Id("billing_email"));
+        public IWebElement CheckPaymentsLink => WaitForElement(_driver, 3, By.CssSelector("#payment li.wc_payment_method.payment_method_cheque label"));
+        public IWebElement CashOnDeliveryLink => WaitForElement(_driver, 3, By.CssSelector("#payment li.wc_payment_method.payment_method_cod label"));
+        public IWebElement PlaceOrderButton => WaitForElement(_driver, 3, By.Id("place_order"));
 
         public bool EnterBillingDetails(BillingDetails billingDetails) {
             // Check each field and return false immediately if any field is not properly filled
@@ -48,9 +43,9 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
         }
 
         public void ClickPaymentMethod(string paymentMethod) {
+            WaitForElementToBeDisabled(_driver, 3, By.CssSelector("blockUI.blockOverlay"));
             switch (paymentMethod) {
                 case "Check payments":
-                    WaitForElementToBeClickable(_driver, 5, By.CssSelector("#payment li.wc_payment_method.payment_method_cheque label"));
                     CheckPaymentsLink.Click();
                     break;
                 case "Cash on delivery":
@@ -62,7 +57,7 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
             }
         }
         public void ClickPlaceOrderButton(){
-            WaitForElementToBeClickable(_driver, 5, By.Id("place_order"));
+            WaitForElementToBeClickable(_driver, 3, By.Id("place_order"));
             PlaceOrderButton.Click();
             
         }

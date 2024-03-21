@@ -1,10 +1,4 @@
 ﻿using OpenQA.Selenium;
-using NUnit.Framework;
-using System;
-using System.Threading;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using static BDD_eCommerce_Project.Support.HelperLibrary;
 
 namespace BDD_eCommerce_Project.Support.PageObjects {
@@ -15,8 +9,6 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
         public Navigation(IWebDriver driver) {
             this._driver = driver;
         }
-
-        // Define an Enum for the links
         public enum Link {
             Home,
             Shop,
@@ -25,18 +17,16 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
             MyAccount,
             Blog
         }
-
-        // Properties for each link
-        public IWebElement HomeLink => WaitForElement(_driver, 5, By.LinkText("Home"));
-        public IWebElement ShopLink => WaitForElement(_driver, 5, By.LinkText("Shop"));
-        public IWebElement CartLink => WaitForElement(_driver, 5, By.LinkText("Cart"));
-        public IWebElement CheckoutLink => WaitForElement(_driver, 5, By.LinkText("Checkout"));
-        public IWebElement MyAccountLink => WaitForElement(_driver, 5, By.LinkText("My account"));
-        public IWebElement BlogLink => WaitForElement(_driver, 5, By.LinkText("Blog"));
+        public IWebElement HomeLink => WaitForElement(_driver, 3, By.LinkText("Home"));
+        public IWebElement ShopLink => WaitForElement(_driver, 3, By.LinkText("Shop"));
+        public IWebElement CartLink => WaitForElement(_driver, 3, By.LinkText("Cart"));
+        public IWebElement CheckoutLink => WaitForElement(_driver, 3, By.LinkText("Checkout"));
+        public IWebElement MyAccountLink => WaitForElement(_driver, 3, By.LinkText("My account"));
+        public IWebElement BlogLink => WaitForElement(_driver, 3, By.LinkText("Blog"));
 
         // Method to click on a link based on the Enum
         public void ClickLink(Link link) {
-            Thread.Sleep(1000);
+            Thread.Sleep(1000);     // wait for page to load
             switch (link) {
                 case Link.Home:
                     HomeLink.Click();

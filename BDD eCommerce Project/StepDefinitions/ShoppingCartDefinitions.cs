@@ -2,102 +2,104 @@
 using NUnit.Framework;
 using BDD_eCommerce_Project.Support.PageObjects;
 using BDD_eCommerce_Project.Support;
+using TechTalk.SpecFlow.Infrastructure;
 
 namespace BDD_eCommerce_Project.StepDefinitions {
     [Binding]
     public class ShoppingCartDefinitions {
         private readonly ScenarioContext _scenarioContext;
+        private readonly ISpecFlowOutputHelper _specFlowOutputHelper;
         private IWebDriver driver;
         private string screenshotFilePath;
-        private decimal originalPrice;
-        private decimal reducedAmount;
-        private decimal shippingPrice;
-        private decimal totalPrice;
-        public ShoppingCartDefinitions(ScenarioContext scenarioContext) {
-            _scenarioContext = scenarioContext;
 
+        /* Steps definitions for applying a coupon */
+        public ShoppingCartDefinitions(ScenarioContext scenarioContext, ISpecFlowOutputHelper specFlowOutputHelper) {
+            _scenarioContext = scenarioContext;
+            _specFlowOutputHelper = specFlowOutputHelper;
             this.driver = (IWebDriver)_scenarioContext["myDriver"];
             this.screenshotFilePath = (string)_scenarioContext["screenshotFilePath"];
-
-            this.originalPrice = 0.0m;
-            this.reducedAmount = 0.0m;
-            this.shippingPrice = 0.0m;
-            this.totalPrice = 0.0m;
         }
 
+        /* Background Step - Enter the shop page */
         [Given(@"I am on the shop page")]
-        public void GivenIamOnThePage() {
+        public void OnTheShopPage() {
             Navigation navigation = new(driver);
             navigation.ClickLink(Navigation.Link.Shop);     // navigate to the 'Shop' page
-            Console.WriteLine("Successfully entered shop");
+            _specFlowOutputHelper.WriteLine("Successfully entered shop");
         }
 
+        /* Adds a product passed from feature file to the cart */
         [Given(@"I add a product '(.*)' to the cart")]
-        public void GivenIAddAProductToTheCart(string product) {
+        public void AddAProductToTheCart(string product) {
             Shop shop = new(driver);
-            if (shop.AddProductToCart(product)) {
-                Console.WriteLine($"Successfully added item {product} to the cart");
-            } else {
-                Assert.Fail($"Unsuccessfully added item to the cart");
+            try {
+                shop.AddProductToCart(product);     // call 'AddProductToCart' to add a product to the cart
+                _specFlowOutputHelper.WriteLine($"Successfully added item {product} to the cart");
+            } catch {
+                Assert.Fail($"Unsuccessfully added item to the cart");      // Assert.Fail if an exception occurs during the attempt to add a product
             }
         }
 
+        /* Navigates and view the product in the cart */
         [Given(@"I view the cart")]
-        public void GivenIViewTheCart() {
+        public void ViewTheCart() {
             Navigation navigation = new(driver);
             navigation.ClickLink(Navigation.Link.Cart);     // navigate to the 'Cart' page
-            Console.WriteLine("Successfully entered cart");
+            _specFlowOutputHelper.WriteLine("Successfully entered cart");
         }
 
+        /* Enter and apply the coupon code passed from the feature file */
         [When(@"I apply the coupon '(.*)'")]
-        public void WhenIApplyTheCoupon(string coupon) {
+        public void ApplyTheCoupon(string coupon) {
             Cart cart = new(driver);
             try {
-                cart.EnterCouponCode(coupon);   // enter and submit the coupon code into field
-                reducedAmount += cart.GetReducedAmount();
-                TestContext.WriteLine($"Successfully entered coupon:{coupon} - Attaching screenshot to report");
+                cart.EnterCouponCode(coupon);   // call 'EnterCouponCode' to apply the coupon
+                _scenarioContext["reducedAmount"] = cart.GetReducedAmount(coupon);      // store 'GetReducedAmount' value into _scenarioContext 
+                _specFlowOutputHelper.WriteLine($"Successfully entered coupon:{coupon}");
             } catch (Exception) {
                 if (string.IsNullOrEmpty(coupon)) {
-                    Console.WriteLine("Coupon is null");
+                    _specFlowOutputHelper.WriteLine("Coupon is null!");
                 }
-                Assert.Fail($"Unsuccessfully applied coupon: {coupon} to subtotal");  // assert fail if the coupon has not been applied to the cart    
+                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Coupon Application Error.jpg");
+                _specFlowOutputHelper.AddAttachment(screenshotFilePath + "Coupon Application Error.jpg");
+
+                Assert.Fail($"Unsuccessfully applied coupon: {coupon} to subtotal - Attatching screenshot to report...");  // Assert.Fail if the coupon has not been applied to the cart    
             }
         }
 
+        /* Checks if the correct discount has been applied to the cart */
         [Then(@"the discount '(.*)' should be applied to the subtotal")]
-        public void ThenTheDiscountShouldBeAppliedToTheSubtotal(decimal discount) {
+        public void DiscountShouldBeApplied(decimal discount) {
             Cart cart = new(driver);
-            
-            originalPrice = cart.GetOriginalPrice(); // get orignal price
-            decimal discountAmount = originalPrice * (discount / 100); // value to be compared with reducedAmount
-        
-            try {
-                Assert.That(reducedAmount, Is.EqualTo(discountAmount), $"Unsuccessfully reduced {discount}% from {originalPrice}");     // check if the amount reduced value is correct and matches with the expected coupon discount
-                Console.WriteLine($"Successfully reduced {discount}% from original price\nSubtotal price displayed: {originalPrice} | Reduced amount displayed: {reducedAmount}");
-            } catch {
-                TestContext.WriteLine($"Coupon should give {discount}%: Subtotal price: {originalPrice} | Reduced amount: {reducedAmount} | Expected reduced amount: {discountAmount} - Attaching screenshot to report");
+
+            decimal originalPrice = cart.GetOriginalPrice();    // get original price - call 'GetOriginalPrice'
+            decimal actualReducedAmount = (decimal)_scenarioContext["reducedAmount"];   // get reduced amount - value from scenarioContext
+            decimal expectedReducedAmount = cart.GetOriginalPrice() * (discount / 100); // value to be compared with actualReducedAmount
+ 
+            if (actualReducedAmount == expectedReducedAmount) {
+                _specFlowOutputHelper.WriteLine($"Successfully reduced {discount}% from original price\nSubtotal price displayed: {originalPrice} | Reduced amount displayed: {actualReducedAmount}");
+            } else {
+                _specFlowOutputHelper.WriteLine($"Coupon should give {discount}%: Subtotal price: {originalPrice} | Reduced amount: {actualReducedAmount} | Expected reduced amount: {expectedReducedAmount} - Attaching screenshot to report");
+                Assert.Fail($"Unsuccessfully reduced {discount}% from {originalPrice}");
             }
         }
 
+        /* Checks if the cart displays the correct total */ 
         [Then(@"the correct total should be displayed")]
-        public void ThenTheCorrectTotalShouldBeDisplayed(){
+        public void CorrectTotalShouldBeDisplayed(){
             Cart cart = new(driver);
 
-            shippingPrice = cart.GetShippingPrice(); // get shipping price
-            totalPrice = cart.GetTotalPrice(); // get total price
+            decimal originalPrice = cart.GetOriginalPrice();    // get original price - call 'GetOriginalPrice'
+            decimal reducedAmount = (decimal)_scenarioContext["reducedAmount"];     // get reduced amount - value from scenarioContext
+            decimal shippingPrice = cart.GetShippingPrice();    // get shipping price - call 'GetShippingPrice'
+            decimal actualTotalPrice = cart.GetTotalPrice();  // get total price - call 'GetTotalPrice'
+            decimal expectedTotalPrice = (originalPrice - reducedAmount) + shippingPrice; // value to be compared with actualTotalPrice
+            
+            Assert.That(actualTotalPrice, Is.EqualTo(expectedTotalPrice), $"Unsuccessfully calculated total after coupon & shipping\nTotal price displayed {actualTotalPrice} | Expected value: {expectedTotalPrice} - Attaching screenshot to report...");             
+            _specFlowOutputHelper.WriteLine($"Successfully calculated total after coupon & shippping\nTotal price displayed {actualTotalPrice} | (original price {originalPrice} - reduced amount {reducedAmount}) + shipping cost {shippingPrice} - Attaching screenshot to report...");
 
-            decimal total = (originalPrice - reducedAmount) + shippingPrice; // value to be compared with totalPrice
-
-            try { 
-                Assert.That(totalPrice, Is.EqualTo(total), "Unsuccessfully calculated total after coupon & shipping");     // check if the cart totals successfully add up to the overall total 
-                Console.WriteLine($"Successfully calculated total after coupon & shippping\nTotal price displayed {totalPrice} | (original price {originalPrice} - reduced amount {reducedAmount}) + shipping cost {shippingPrice} - Attaching screenshot to report");
-                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Cart overview.jpg", true);
-                TestContext.AddTestAttachment(screenshotFilePath + "Cart overview.jpg", "Cart overview");
-            } catch {
-                TestContext.WriteLine($"Total price displayed {totalPrice} | Expected value: {total} - Attaching screenshot to report");
-                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Total error.jpg", true);
-                TestContext.AddTestAttachment(screenshotFilePath + "Total error.jpg", "Calculating total error");
-            }
+            HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Cart Overview.jpg");
+            _specFlowOutputHelper.AddAttachment(screenshotFilePath + "Cart Overview.jpg");
         }
     }
 }

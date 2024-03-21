@@ -10,16 +10,10 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
             this._driver = driver;
         }
 
-        public string OrderNumber => WaitForElement(_driver, 2, By.CssSelector("#post-6  li.woocommerce-order-overview__order.order strong")).Text;
-        public bool WaitForOrderRecievedConfirmaion(){
-            try {
-                WaitForElement(_driver, 5, By.CssSelector("#post-6 > header > h1"));
-                return true;
-            } catch(Exception){
-                return false;
-            }
-        }
-        public string GetOrderNumber(){
+        public string OrderNumber => WaitForElement(_driver, 3, By.CssSelector("#post-6  li.woocommerce-order-overview__order.order strong")).Text;
+       
+        public string GetOrderNumber() {
+            WaitForElement(_driver, 3, By.CssSelector("#post-6 > header > h1"));
             return OrderNumber;
         }
     }

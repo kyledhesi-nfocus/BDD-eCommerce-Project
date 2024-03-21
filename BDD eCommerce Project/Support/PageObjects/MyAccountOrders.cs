@@ -1,9 +1,4 @@
 ﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static BDD_eCommerce_Project.Support.HelperLibrary;
 
 namespace BDD_eCommerce_Project.Support.PageObjects {
@@ -15,12 +10,12 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
             this._driver = driver;
         }
 
-        public string OrderID => WaitForElement(_driver, 2, By.CssSelector("#post-7 tbody tr:nth-child(1) td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-number a")).Text;
-        public IWebElement DashboardLink => WaitForElement(_driver, 2, By.LinkText("Dashboard"));
-        public string GetOrderID() {
+        public IWebElement DashboardLink => WaitForElement(_driver, 3, By.LinkText("Dashboard"));
+        public string OrderID => WaitForElement(_driver, 3, By.CssSelector("#post-7 tbody tr:nth-child(1) td.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-number a")).Text;
+        public string GetMostRecentOrderID() {
             return OrderID.TrimStart('#');
         }
-        public void Dashboard() {
+        public void ClickDashboardLink() {
             DashboardLink.Click();
         }
     }

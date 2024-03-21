@@ -25,7 +25,7 @@ namespace BDD_eCommerce_Project.Support {
             
             if (browser == null) {      
                 browser = "firefox";
-                Console.WriteLine("Browser environment not set: Setting to Firefox");
+                Console.WriteLine("Browser environment not set: Setting to Firefox...");
             } 
 
             switch (browser.ToLower()) {      // calls driver depending on browser variable
@@ -81,7 +81,7 @@ namespace BDD_eCommerce_Project.Support {
             Console.WriteLine("Cart is empty - Logging out...");
             
             navigation.ClickLink(Navigation.Link.MyAccount);
-            myAccountDashboard.Logout();        // logout at the end of the test
+            myAccountDashboard.ClickLogoutLink();        // logout at the end of the test
             Console.WriteLine("Successfully logged out - Teardown Complete!");
             
             _driver!.Quit();     // quit the driver
