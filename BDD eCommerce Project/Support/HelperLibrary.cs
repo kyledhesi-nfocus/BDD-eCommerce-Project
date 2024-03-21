@@ -32,12 +32,7 @@ namespace BDD_eCommerce_Project.Support {
             var provider = new CultureInfo("en-GB");
             return decimal.Parse(str, style, provider);
         }
-        public static void TakeScreenshot(IWebDriver driver, string screenshotFilePath, bool scroll) {
-            if (scroll == true) {
-                IJavaScriptExecutor jsExecutor = (IJavaScriptExecutor)driver;
-                jsExecutor.ExecuteScript("window.scrollBy(0,85)", "");
-            }
-         
+        public static void TakeScreenshot(IWebDriver driver, string screenshotFilePath) {
             ITakesScreenshot? screenshotDriver = driver as ITakesScreenshot;
             if (screenshotDriver != null) {
                 Screenshot screenshot = screenshotDriver.GetScreenshot();

@@ -59,7 +59,7 @@ namespace BDD_eCommerce_Project.StepDefinitions {
                 Assert.That(checkout.EnterBillingDetails(billingDetails), "Unsuccessfully entered billing details into input fields");      // checks if 'EnterBillingDetails' successfully inputs all data into fields  
                 _specFlowOutputHelper.WriteLine("Successfully entered billing details");
             } catch (AssertionException) {
-                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Billing Details Exception.jpg", false);
+                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Billing Details Exception.jpg");
                 _specFlowOutputHelper.AddAttachment(screenshotFilePath + "Billing Details Exception.jpg");
                 throw;
             }
@@ -88,10 +88,10 @@ namespace BDD_eCommerce_Project.StepDefinitions {
             try {
                 _scenarioContext["confirmationOrderNumber"] = orderReceived.GetOrderNumber();   // store 'GetOrderNumber' value into _scenarioContext
                 _specFlowOutputHelper.WriteLine($"Successfully placed order with order number:{orderReceived.GetOrderNumber()} - Attaching Order Confirmation screenshot to report");
-                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Order Confirmation.jpg", false);
+                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Order Confirmation.jpg");
                 _specFlowOutputHelper.AddAttachment(screenshotFilePath + "Order Confirmation.jpg");
             } catch(Exception) {
-                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Order Confirmation Exception.jpg", false);
+                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Order Confirmation Exception.jpg");
                 _specFlowOutputHelper.AddAttachment(screenshotFilePath + "Order Confirmation Exception.jpg");
                 Assert.Fail("Unsuccessfully placed order - Attaching screenshot to report");    // Assert.Fail if order confirmation page does not appear
             }
@@ -120,7 +120,7 @@ namespace BDD_eCommerce_Project.StepDefinitions {
                 _specFlowOutputHelper.WriteLine($"Unsuccessfully displayed latest order\nOrder number displayed {MostRecentOrderNumber} | Expected order number: {confirmationOrderNumber}");
             }
 
-            HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "My Account - All Orders Page.jpg", false);
+            HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "My Account - All Orders Page.jpg");
             _specFlowOutputHelper.AddAttachment(screenshotFilePath + "My Account - All Orders Page.jpg");
 
         }
