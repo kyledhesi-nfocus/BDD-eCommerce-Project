@@ -8,7 +8,6 @@ using TechTalk.SpecFlow.Infrastructure;
 namespace BDD_eCommerce_Project.StepDefinitions {
     [Binding]
     public class CheckoutDefinitions {
-
         private readonly ScenarioContext _scenarioContext;
         private IWebDriver _driver;
         private string _screenshotFilePath;

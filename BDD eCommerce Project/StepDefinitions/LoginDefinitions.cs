@@ -1,15 +1,21 @@
-﻿using BDD_eCommerce_Project.Support.PageObjects;
+﻿using BDD_eCommerce_Project.Support;
+using BDD_eCommerce_Project.Support.PageObjects;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using TechTalk.SpecFlow.Infrastructure;
 
 namespace BDD_eCommerce_Project.StepDefinitions {
     [Binding]
     internal class LoginDefinitions {
         private readonly ScenarioContext _scenarioContext;
         private IWebDriver _driver;
-        public LoginDefinitions(ScenarioContext scenarioContext) {
+        private readonly ISpecFlowOutputHelper _specFlowOutputHelper;
+        private string _screenshotFilePath;
+        public LoginDefinitions(ScenarioContext scenarioContext, ISpecFlowOutputHelper specFlowOutputHelper) {
             _scenarioContext = scenarioContext;
+            _specFlowOutputHelper = specFlowOutputHelper;
             this._driver = (IWebDriver)_scenarioContext["myDriver"];
+            this._screenshotFilePath = (string)_scenarioContext["screenshotFilePath"];
         }
 
         /* Background Step - Login Process */
@@ -27,15 +33,17 @@ namespace BDD_eCommerce_Project.StepDefinitions {
             try {
                 LoginMyAccount loginMyAccount = new LoginMyAccount(_driver);
                 loginMyAccount.DismissBanner();
-                loginMyAccount.EnterLoginDetails(username, password);
+                loginMyAccount.EnterLoginDetails(username, password);       // call 'EnterLoginDetails' to login to account
                 MyAccountDashboard myAccountDashboard = new(_driver);
                 
                 if (myAccountDashboard.LogoutLink.Displayed) {
-                    Console.WriteLine("Successfully logged in - Begin Test!");
+                    _specFlowOutputHelper.WriteLine("Successfully logged in - Begin Test!");
                 }   
             }
             catch (Exception) {
-                Console.WriteLine("Configure .runsettings with valid login credentials");
+                _specFlowOutputHelper.WriteLine("Configure .runsettings with valid login credentials");
+                HelperLibrary.TakeScreenshot(_driver, _screenshotFilePath + "Unsuccessful Login.jpg");
+                _specFlowOutputHelper.AddAttachment(_screenshotFilePath + "Unsuccessful Login.jpg");
                 Assert.Fail("Login unsuccessful - Test Failed");        // Assert.Fail if login is unsuccessful
             }
         }

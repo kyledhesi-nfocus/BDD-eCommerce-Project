@@ -2,8 +2,6 @@
 using OpenQA.Selenium;
 using System.Globalization;
 using SeleniumExtras.WaitHelpers;
-using System.Xml.Linq;
-using System.Diagnostics;
 
 namespace BDD_eCommerce_Project.Support {
     public static class HelperLibrary {

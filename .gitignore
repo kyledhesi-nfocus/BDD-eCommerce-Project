@@ -362,5 +362,8 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-#mysettings.runsettings
+# mysettings.runsettings
 mysettings.runsettings
+
+# Results
+Results/

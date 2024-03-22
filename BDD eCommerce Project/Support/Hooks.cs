@@ -4,8 +4,6 @@ using NUnit.Framework;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Chrome;
 using BDD_eCommerce_Project.Support.PageObjects;
-using System.Reflection;
-using System.Linq.Expressions;
 
 namespace BDD_eCommerce_Project.Support {
 
@@ -21,8 +19,7 @@ namespace BDD_eCommerce_Project.Support {
         [Before]
         public void Setup() {
             
-            browser = Environment.GetEnvironmentVariable("BROWSER");      // get browser variable from mysettings.runsettings
-            
+            browser = Environment.GetEnvironmentVariable("BROWSER");      // get browser type from mysettings.runsettings
             if (browser == null) {      
                 browser = "firefox";
                 Console.WriteLine("Browser environment not set: Setting to Firefox...");
@@ -43,13 +40,12 @@ namespace BDD_eCommerce_Project.Support {
                     _driver = new FirefoxDriver();
                     break;
             }
-
             Console.WriteLine($"Browser set to: {browser}");
 
             _driver.Manage().Window.Maximize();
+
             string? baseUrl = TestContext.Parameters["WebAppURL"];       // get website URL from mysettings.runsettings
-            
-            if (string.IsNullOrEmpty(baseUrl)) {   // Check if baseUrl is null
+            if (string.IsNullOrEmpty(baseUrl)) {   // baseUrl null check
                 throw new WebDriverException("The baseURL is null - configure .runsettings");
             }
             _driver.Url = baseUrl;
@@ -57,7 +53,7 @@ namespace BDD_eCommerce_Project.Support {
 
             Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\Screenshots\"));
             string screenshotFilePath = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\Screenshots\");
-            _scenarioContext["screenshotFilePath"] = screenshotFilePath;
+            _scenarioContext["screenshotFilePath"] = screenshotFilePath;    // store screenshotFilePath into _scenarioContext
         }
 
         [After]
@@ -73,7 +69,7 @@ namespace BDD_eCommerce_Project.Support {
             Console.WriteLine("Checking if cart is empty...");
             
             try {
-                cart.ClearCart();
+                cart.ClearCart();   // clear the cart for next test
             } catch {
 
             }
@@ -81,7 +77,7 @@ namespace BDD_eCommerce_Project.Support {
             Console.WriteLine("Cart is empty - Logging out...");
             
             navigation.ClickLink(Navigation.Link.MyAccount);
-            myAccountDashboard.ClickLogoutLink();        // logout at the end of the test
+            myAccountDashboard.ClickLogoutLink();        // logout of account
             Console.WriteLine("Successfully logged out - Teardown Complete!");
             
             _driver!.Quit();     // quit the driver
