@@ -24,7 +24,6 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
         public IWebElement MyAccountLink => WaitForElement(_driver, 3, By.LinkText("My account"));
         public IWebElement BlogLink => WaitForElement(_driver, 3, By.LinkText("Blog"));
 
-        // Method to click on a link based on the Enum
         public void ClickLink(Link link) {
             Thread.Sleep(1000);     // wait for page to load
             switch (link) {

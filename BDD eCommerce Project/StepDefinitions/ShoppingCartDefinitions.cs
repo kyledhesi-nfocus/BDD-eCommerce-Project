@@ -9,21 +9,21 @@ namespace BDD_eCommerce_Project.StepDefinitions {
     public class ShoppingCartDefinitions {
         private readonly ScenarioContext _scenarioContext;
         private readonly ISpecFlowOutputHelper _specFlowOutputHelper;
-        private IWebDriver driver;
-        private string screenshotFilePath;
+        private IWebDriver _driver;
+        private string _screenshotFilePath;
 
         /* Steps definitions for applying a coupon */
         public ShoppingCartDefinitions(ScenarioContext scenarioContext, ISpecFlowOutputHelper specFlowOutputHelper) {
             _scenarioContext = scenarioContext;
             _specFlowOutputHelper = specFlowOutputHelper;
-            this.driver = (IWebDriver)_scenarioContext["myDriver"];
-            this.screenshotFilePath = (string)_scenarioContext["screenshotFilePath"];
+            this._driver = (IWebDriver)_scenarioContext["myDriver"];
+            this._screenshotFilePath = (string)_scenarioContext["screenshotFilePath"];
         }
 
         /* Background Step - Enter the shop page */
         [Given(@"I am on the shop page")]
         public void OnTheShopPage() {
-            Navigation navigation = new(driver);
+            Navigation navigation = new(_driver);
             navigation.ClickLink(Navigation.Link.Shop);     // navigate to the 'Shop' page
             _specFlowOutputHelper.WriteLine("Successfully entered shop");
         }
@@ -31,7 +31,7 @@ namespace BDD_eCommerce_Project.StepDefinitions {
         /* Adds a product passed from feature file to the cart */
         [Given(@"I add a product '(.*)' to the cart")]
         public void AddAProductToTheCart(string product) {
-            Shop shop = new(driver);
+            Shop shop = new(_driver);
             try {
                 shop.AddProductToCart(product);     // call 'AddProductToCart' to add a product to the cart
                 _specFlowOutputHelper.WriteLine($"Successfully added item {product} to the cart");
@@ -43,7 +43,7 @@ namespace BDD_eCommerce_Project.StepDefinitions {
         /* Navigates and view the product in the cart */
         [Given(@"I view the cart")]
         public void ViewTheCart() {
-            Navigation navigation = new(driver);
+            Navigation navigation = new(_driver);
             navigation.ClickLink(Navigation.Link.Cart);     // navigate to the 'Cart' page
             _specFlowOutputHelper.WriteLine("Successfully entered cart");
         }
@@ -51,7 +51,7 @@ namespace BDD_eCommerce_Project.StepDefinitions {
         /* Enter and apply the coupon code passed from the feature file */
         [When(@"I apply the coupon '(.*)'")]
         public void ApplyTheCoupon(string coupon) {
-            Cart cart = new(driver);
+            Cart cart = new(_driver);
             try {
                 cart.EnterCouponCode(coupon);   // call 'EnterCouponCode' to apply the coupon
                 _scenarioContext["reducedAmount"] = cart.GetReducedAmount(coupon);      // store 'GetReducedAmount' value into _scenarioContext 
@@ -60,8 +60,8 @@ namespace BDD_eCommerce_Project.StepDefinitions {
                 if (string.IsNullOrEmpty(coupon)) {
                     _specFlowOutputHelper.WriteLine("Coupon is null!");
                 }
-                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Coupon Application Error.jpg");
-                _specFlowOutputHelper.AddAttachment(screenshotFilePath + "Coupon Application Error.jpg");
+                HelperLibrary.TakeScreenshot(_driver, _screenshotFilePath + "Coupon Application Error.jpg");
+                _specFlowOutputHelper.AddAttachment(_screenshotFilePath + "Coupon Application Error.jpg");
 
                 Assert.Fail($"Unsuccessfully applied coupon: {coupon} to subtotal - Attatching screenshot to report...");  // Assert.Fail if the coupon has not been applied to the cart    
             }
@@ -70,7 +70,7 @@ namespace BDD_eCommerce_Project.StepDefinitions {
         /* Checks if the correct discount has been applied to the cart */
         [Then(@"the discount '(.*)' should be applied to the subtotal")]
         public void DiscountShouldBeApplied(decimal discount) {
-            Cart cart = new(driver);
+            Cart cart = new(_driver);
 
             decimal originalPrice = cart.GetOriginalPrice();    // get original price - call 'GetOriginalPrice'
             decimal actualReducedAmount = (decimal)_scenarioContext["reducedAmount"];   // get reduced amount - value from scenarioContext
@@ -87,7 +87,7 @@ namespace BDD_eCommerce_Project.StepDefinitions {
         /* Checks if the cart displays the correct total */ 
         [Then(@"the correct total should be displayed")]
         public void CorrectTotalShouldBeDisplayed(){
-            Cart cart = new(driver);
+            Cart cart = new(_driver);
 
             decimal originalPrice = cart.GetOriginalPrice();    // get original price - call 'GetOriginalPrice'
             decimal reducedAmount = (decimal)_scenarioContext["reducedAmount"];     // get reduced amount - value from scenarioContext
@@ -98,8 +98,8 @@ namespace BDD_eCommerce_Project.StepDefinitions {
             Assert.That(actualTotalPrice, Is.EqualTo(expectedTotalPrice), $"Unsuccessfully calculated total after coupon & shipping\nTotal price displayed {actualTotalPrice} | Expected value: {expectedTotalPrice} - Attaching screenshot to report...");             
             _specFlowOutputHelper.WriteLine($"Successfully calculated total after coupon & shippping\nTotal price displayed {actualTotalPrice} | (original price {originalPrice} - reduced amount {reducedAmount}) + shipping cost {shippingPrice} - Attaching screenshot to report...");
 
-            HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Cart Overview.jpg");
-            _specFlowOutputHelper.AddAttachment(screenshotFilePath + "Cart Overview.jpg");
+            HelperLibrary.TakeScreenshot(_driver, _screenshotFilePath + "Cart Overview.jpg");
+            _specFlowOutputHelper.AddAttachment(_screenshotFilePath + "Cart Overview.jpg");
         }
     }
 }

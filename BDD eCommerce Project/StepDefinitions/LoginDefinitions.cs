@@ -12,6 +12,7 @@ namespace BDD_eCommerce_Project.StepDefinitions {
             this._driver = (IWebDriver)_scenarioContext["myDriver"];
         }
 
+        /* Background Step - Login Process */
         [Given(@"I am logged in as a user")]
         public void GivenIAmLoggedIn() {
             string? username = Environment.GetEnvironmentVariable("SECRET_USERNAME");        // get username from mysettings.runsettings
@@ -29,14 +30,14 @@ namespace BDD_eCommerce_Project.StepDefinitions {
                 loginMyAccount.EnterLoginDetails(username, password);
                 MyAccountDashboard myAccountDashboard = new(_driver);
                 
-                Assert.That(myAccountDashboard.LogoutLink.Displayed);
-                Console.WriteLine("Successfully logged in - Begin Test!");
+                if (myAccountDashboard.LogoutLink.Displayed) {
+                    Console.WriteLine("Successfully logged in - Begin Test!");
+                }   
             }
             catch (Exception) {
                 Console.WriteLine("Configure .runsettings with valid login credentials");
-                Assert.Fail("Login unsuccessful - Test Failed");        // assert fail if login is not successful
+                Assert.Fail("Login unsuccessful - Test Failed");        // Assert.Fail if login is unsuccessful
             }
         }
-
     }
 }

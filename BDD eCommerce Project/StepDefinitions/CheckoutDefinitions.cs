@@ -10,25 +10,25 @@ namespace BDD_eCommerce_Project.StepDefinitions {
     public class CheckoutDefinitions {
 
         private readonly ScenarioContext _scenarioContext;
-        private IWebDriver driver;
-        private string screenshotFilePath;
+        private IWebDriver _driver;
+        private string _screenshotFilePath;
         private readonly ISpecFlowOutputHelper _specFlowOutputHelper;
 
         /* Steps definitions for ordering an item */
         public CheckoutDefinitions(ScenarioContext scenarioContext, ISpecFlowOutputHelper specFlowOutputHelper) {
             _scenarioContext = scenarioContext;
             _specFlowOutputHelper = specFlowOutputHelper;
-            this.driver = (IWebDriver)_scenarioContext["myDriver"];
-            this.screenshotFilePath = (string)_scenarioContext["screenshotFilePath"];     
+            this._driver = (IWebDriver)_scenarioContext["myDriver"];
+            this._screenshotFilePath = (string)_scenarioContext["screenshotFilePath"];     
         }
 
         /* Background Step - Add an item to the cart */
         [Given(@"I add a product to the cart")]
         public void AddAProductToTheCart() {
-            Navigation navigation = new(driver);
+            Navigation navigation = new(_driver);
             navigation.ClickLink(Navigation.Link.Shop);     // navigate to the 'Shop' page
             
-            Shop shop = new(driver);
+            Shop shop = new(_driver);
            _specFlowOutputHelper.WriteLine("Successfully entered shop");
             
             try {
@@ -45,7 +45,7 @@ namespace BDD_eCommerce_Project.StepDefinitions {
         /* Continue to the checkout page */
         [Given(@"I proceed to checkout")]
         public void ProceedToCheckout() {
-            Cart cart = new(driver);
+            Cart cart = new(_driver);
             cart.ClickCheckoutButton();    // navigate to the 'Checkout' page
             _specFlowOutputHelper.WriteLine("Successfully entered checkout");
         }
@@ -53,14 +53,14 @@ namespace BDD_eCommerce_Project.StepDefinitions {
         /* Enter the billing details from feature file */
         [Given(@"I enter my billing details")]
         public void EnterMyBillingDetails(Table billingDetailsTable) {
-            Checkout checkout = new(driver);
+            Checkout checkout = new(_driver);
             BillingDetails billingDetails = billingDetailsTable.CreateInstance<BillingDetails>();   // converts the table of billing details into an instance of BillingDetails
             try {
                 Assert.That(checkout.EnterBillingDetails(billingDetails), "Unsuccessfully entered billing details into input fields");      // checks if 'EnterBillingDetails' successfully inputs all data into fields  
                 _specFlowOutputHelper.WriteLine("Successfully entered billing details");
             } catch (AssertionException) {
-                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Billing Details Exception.jpg");
-                _specFlowOutputHelper.AddAttachment(screenshotFilePath + "Billing Details Exception.jpg");
+                HelperLibrary.TakeScreenshot(_driver, _screenshotFilePath + "Billing Details Exception.jpg");
+                _specFlowOutputHelper.AddAttachment(_screenshotFilePath + "Billing Details Exception.jpg");
                 throw;
             }
         }
@@ -68,7 +68,7 @@ namespace BDD_eCommerce_Project.StepDefinitions {
         /* Select the payment method from feature file */
         [Given(@"I select the payment method '(.*)'")]
         public void SelectThePaymentMethod(string paymentMethod) {
-            Checkout checkout = new(driver);
+            Checkout checkout = new(_driver);
             checkout.ClickPaymentMethod(paymentMethod);     // select the payment method
             _specFlowOutputHelper.WriteLine($"Successfully clicked payment method: {paymentMethod}");
         }
@@ -76,7 +76,7 @@ namespace BDD_eCommerce_Project.StepDefinitions {
         /* Complete the checkout */
         [When(@"I place the order")]
         public void PlaceTheOrder(){
-            Checkout checkout = new(driver);
+            Checkout checkout = new(_driver);
             checkout.ClickPlaceOrderButton();  // click the 'Place order' button
             _specFlowOutputHelper.WriteLine("Successfully clicked Place order button");
         }
@@ -84,15 +84,15 @@ namespace BDD_eCommerce_Project.StepDefinitions {
         /* Wait for the order confirmation page */
         [Then(@"I should see the Order recieved page")]
         public void SeeTheOrderRecievedPage() {
-            OrderReceived orderReceived = new(driver);
+            OrderReceived orderReceived = new(_driver);
             try {
                 _scenarioContext["confirmationOrderNumber"] = orderReceived.GetOrderNumber();   // store 'GetOrderNumber' value into _scenarioContext
                 _specFlowOutputHelper.WriteLine($"Successfully placed order with order number:{orderReceived.GetOrderNumber()} - Attaching Order Confirmation screenshot to report");
-                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Order Confirmation.jpg");
-                _specFlowOutputHelper.AddAttachment(screenshotFilePath + "Order Confirmation.jpg");
+                HelperLibrary.TakeScreenshot(_driver, _screenshotFilePath + "Order Confirmation.jpg");
+                _specFlowOutputHelper.AddAttachment(_screenshotFilePath + "Order Confirmation.jpg");
             } catch(Exception) {
-                HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "Order Confirmation Exception.jpg");
-                _specFlowOutputHelper.AddAttachment(screenshotFilePath + "Order Confirmation Exception.jpg");
+                HelperLibrary.TakeScreenshot(_driver, _screenshotFilePath + "Order Confirmation Exception.jpg");
+                _specFlowOutputHelper.AddAttachment(_screenshotFilePath + "Order Confirmation Exception.jpg");
                 Assert.Fail("Unsuccessfully placed order - Attaching screenshot to report");    // Assert.Fail if order confirmation page does not appear
             }
         }
@@ -100,14 +100,14 @@ namespace BDD_eCommerce_Project.StepDefinitions {
         /* Checks if Order Number is displayed on the 'Orders' page */
         [Then(@"the order number should appear on the Orders page")]
         public void OrderNumberShouldAppearOnTheOrdersPage() {
-            Navigation navigation = new(driver);
+            Navigation navigation = new(_driver);
             navigation.ClickLink(Navigation.Link.MyAccount);    // naviagate to the 'My account' page
 
-            MyAccountDashboard myAccountDashboard = new(driver);
+            MyAccountDashboard myAccountDashboard = new(_driver);
             _specFlowOutputHelper.WriteLine("Successfully entered My account");
 
             myAccountDashboard.ClickViewOrdersLink();    // navigate to the 'Orders' page
-            MyAccountOrders myAccountOrders = new(driver);
+            MyAccountOrders myAccountOrders = new(_driver);
 
             _specFlowOutputHelper.WriteLine("Successfully entered Orders page");
 
@@ -120,8 +120,8 @@ namespace BDD_eCommerce_Project.StepDefinitions {
                 _specFlowOutputHelper.WriteLine($"Unsuccessfully displayed latest order\nOrder number displayed {MostRecentOrderNumber} | Expected order number: {confirmationOrderNumber}");
             }
 
-            HelperLibrary.TakeScreenshot(driver, screenshotFilePath + "My Account - All Orders Page.jpg");
-            _specFlowOutputHelper.AddAttachment(screenshotFilePath + "My Account - All Orders Page.jpg");
+            HelperLibrary.TakeScreenshot(_driver, _screenshotFilePath + "My Account - All Orders Page.jpg");
+            _specFlowOutputHelper.AddAttachment(_screenshotFilePath + "My Account - All Orders Page.jpg");
 
         }
     }
