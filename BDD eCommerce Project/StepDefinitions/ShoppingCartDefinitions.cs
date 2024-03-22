@@ -55,7 +55,7 @@ namespace BDD_eCommerce_Project.StepDefinitions {
             try {
                 cart.EnterCouponCode(coupon);   // call 'EnterCouponCode' to apply the coupon
                 _scenarioContext["reducedAmount"] = cart.GetReducedAmount(coupon);      // store 'GetReducedAmount' value into _scenarioContext 
-                _specFlowOutputHelper.WriteLine($"Successfully entered coupon:{coupon}");
+                _specFlowOutputHelper.WriteLine($"Successfully entered coupon: {coupon}");
             } catch (Exception) {
                 if (string.IsNullOrEmpty(coupon)) {
                     _specFlowOutputHelper.WriteLine("Coupon is null!");
