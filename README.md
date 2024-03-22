@@ -38,7 +38,7 @@ Ensures the checkout process works correctly from start to finish. This includes
 
 To run the tests, navigate to Test Explorer in Visual Studio and click "Run All" or select individual tests to run.
 
-To run the tests via the Command Prompt navigate to `Solution Explorer > Open Folder in File Explorer - ensure you can see the '.csproj' file > Open a Command Prompt in this folder` and paste either one of the following commands:
+To run the tests via the Command Prompt navigate to Solution Explorer > Open Folder in File Explorer - ensure you can see the '.csproj' file > Open a Command Prompt in this folder and paste either one of the following commands:
 
 `dotnet test --results-directory "Results" --logger:trx --settings mysettings.runsettings`
 
@@ -52,11 +52,11 @@ Run the tests via the Command Prompt - Naviagate to Solution Explorer and 'Open 
 
 `livingdoc test-assembly BDD" "eCommerce" "Project.dll -t TestExecution.json`
 
-A 'LivingDoc.html' should appear in the 'net6.0' folder.
+A `LivingDoc.html` should appear in the 'net6.0' folder.
 
 **Allure Report Docs**
 
-Run the tests via Test Explorer - Naviagate to Solution Explorer and 'Open Folder in File Explorer' > Select the 'bin'...'Debug'...'net6.0' folders - ensure you can see 'allure-results' folder > Open a Command Prompt > Copy and paste the following:
+Run the tests via Test Explorer - Naviagate to Solution Explorer and 'Open Folder in File Explorer' > Select the 'bin'...'Debug'...'net6.0' folders - ensure you can see `allure-results` folder > Open a Command Prompt > Copy and paste the following:
 
 `allure serve allure-results`
 
