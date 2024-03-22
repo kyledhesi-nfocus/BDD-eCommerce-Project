@@ -1,6 +1,6 @@
 # eCommerce Website BDD Testing with SpecFlow in C#
 
-This project is a Behavior-Driven Development (BDD) testing suite for an eCommerce website, using SpecFlow with C#. The purpose of the testing suite is to validate the functionality of features within the website. SpecFlow's natural language approach to test case definition, makes the tests understandable to stakeholders and maintaining a clear documentation of system behavior.
+This project is a Behavior-Driven Development (BDD) testing suite for an eCommerce website, using SpecFlow with C#. The purpose of the testing suite is to validate the functionality of features within the website. 
 
 https://www.edgewordstraining.co.uk/demo-site/
 
