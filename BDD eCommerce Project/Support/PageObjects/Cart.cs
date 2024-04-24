@@ -62,9 +62,7 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
         public void ClearCart() {
             while (true) {
                 try {
-                    RemoveCouponFromCart();
-                    Console.WriteLine("Removing coupon...");   
-                    Thread.Sleep(1000);     // wait for the page to load
+                    RemoveCouponFromCart(); 
                 } catch {
                     break; // Exit the loop for removing coupons
                 }
@@ -73,8 +71,6 @@ namespace BDD_eCommerce_Project.Support.PageObjects {
             while (true) {
                 try {
                     RemoveItemFromCart();
-                    Console.WriteLine("Removing item...");
-                    Thread.Sleep(1000);     // wait for the page to load
                 }
                 catch {
                     break; // Exit the loop for removing items

@@ -3,6 +3,8 @@ using NUnit.Framework;
 using BDD_eCommerce_Project.Support.PageObjects;
 using BDD_eCommerce_Project.Support;
 using TechTalk.SpecFlow.Infrastructure;
+using Allure.Net.Commons;
+using System.IO;
 
 namespace BDD_eCommerce_Project.StepDefinitions {
     [Binding]
@@ -25,7 +27,6 @@ namespace BDD_eCommerce_Project.StepDefinitions {
         public void OnTheShopPage() {
             Navigation navigation = new(_driver);
             navigation.ClickLink(Navigation.Link.Shop);     // navigate to the 'Shop' page
-            _specFlowOutputHelper.WriteLine("Successfully entered shop");
         }
 
         /* Adds a product passed from feature file to the cart */
@@ -45,7 +46,6 @@ namespace BDD_eCommerce_Project.StepDefinitions {
         public void ViewTheCart() {
             Navigation navigation = new(_driver);
             navigation.ClickLink(Navigation.Link.Cart);     // navigate to the 'Cart' page
-            _specFlowOutputHelper.WriteLine("Successfully entered cart");
         }
 
         /* Enter and apply the coupon code passed from the feature file */
@@ -62,8 +62,8 @@ namespace BDD_eCommerce_Project.StepDefinitions {
                 }
                 HelperLibrary.TakeScreenshot(_driver, _screenshotFilePath + "Coupon Application Error.jpg");
                 _specFlowOutputHelper.AddAttachment(_screenshotFilePath + "Coupon Application Error.jpg");
-
-                Assert.Fail($"Unsuccessfully applied coupon: {coupon} to subtotal - Attatching screenshot to report...");  // Assert.Fail if the coupon has not been applied to the cart    
+                AllureApi.AddAttachment(_screenshotFilePath + "Coupon Application Error.jpg");
+                Assert.Fail($"Unsuccessfully applied coupon: {coupon} to subtotal");  // Assert.Fail if the coupon has not been applied to the cart    
             }
         }
 
@@ -71,35 +71,37 @@ namespace BDD_eCommerce_Project.StepDefinitions {
         [Then(@"the discount '(.*)' should be applied to the subtotal")]
         public void DiscountShouldBeApplied(decimal discount) {
             Cart cart = new(_driver);
-
             decimal originalPrice = cart.GetOriginalPrice();    // get original price - call 'GetOriginalPrice'
             decimal actualReducedAmount = (decimal)_scenarioContext["reducedAmount"];   // get reduced amount - value from scenarioContext
-            decimal expectedReducedAmount = cart.GetOriginalPrice() * (discount / 100); // value to be compared with actualReducedAmount
- 
-            if (actualReducedAmount == expectedReducedAmount) {
-                _specFlowOutputHelper.WriteLine($"Successfully reduced {discount}% from original price\nSubtotal price displayed: {originalPrice} | Reduced amount displayed: {actualReducedAmount}");
-            } else {
-                _specFlowOutputHelper.WriteLine($"Coupon should give {discount}%: Subtotal price: {originalPrice} | Reduced amount: {actualReducedAmount} | Expected reduced amount: {expectedReducedAmount} - Attaching screenshot to report");
-                Assert.Fail($"Unsuccessfully reduced {discount}% from {originalPrice}");
+            decimal expectedReducedAmount = cart.GetOriginalPrice() * (discount/100); // value to be compared with actualReducedAmount
+            try {
+                Assert.That(actualReducedAmount, Is.EqualTo(expectedReducedAmount), $"Unsuccessfully reduced {discount}% from {originalPrice}");
+                _specFlowOutputHelper.WriteLine($"Successfully reduced {discount}% from original price");
+            } catch (Exception) {
+                HelperLibrary.TakeScreenshot(_driver, _screenshotFilePath + "Discount Exception.jpg");
+                _specFlowOutputHelper.AddAttachment(_screenshotFilePath + "Discount Exception.jpg");
+                AllureApi.AddAttachment(_screenshotFilePath + "Discount Exception.jpg");
+                throw;
             }
         }
 
-        /* Checks if the cart displays the correct total */ 
+        /* Checks if the cart displays the correct total */
         [Then(@"the correct total should be displayed")]
         public void CorrectTotalShouldBeDisplayed(){
             Cart cart = new(_driver);
-
             decimal originalPrice = cart.GetOriginalPrice();    // get original price - call 'GetOriginalPrice'
             decimal reducedAmount = (decimal)_scenarioContext["reducedAmount"];     // get reduced amount - value from scenarioContext
             decimal shippingPrice = cart.GetShippingPrice();    // get shipping price - call 'GetShippingPrice'
             decimal actualTotalPrice = cart.GetTotalPrice();  // get total price - call 'GetTotalPrice'
             decimal expectedTotalPrice = (originalPrice - reducedAmount) + shippingPrice; // value to be compared with actualTotalPrice
-            
-            Assert.That(actualTotalPrice, Is.EqualTo(expectedTotalPrice), $"Unsuccessfully calculated total after coupon & shipping\nTotal price displayed {actualTotalPrice} | Expected value: {expectedTotalPrice} - Attaching screenshot to report...");             
-            _specFlowOutputHelper.WriteLine($"Successfully calculated total after coupon & shippping\nTotal price displayed {actualTotalPrice} | (original price {originalPrice} - reduced amount {reducedAmount}) + shipping cost {shippingPrice} - Attaching screenshot to report...");
-
-            HelperLibrary.TakeScreenshot(_driver, _screenshotFilePath + "Cart Overview.jpg");
-            _specFlowOutputHelper.AddAttachment(_screenshotFilePath + "Cart Overview.jpg");
+            try {
+                Assert.That(actualTotalPrice, Is.EqualTo(expectedTotalPrice), $"Incorrect total was displayed");
+                _specFlowOutputHelper.WriteLine($"Correct total was displayed");
+            } finally {
+                HelperLibrary.TakeScreenshot(_driver, _screenshotFilePath + "Cart Overview.jpg");
+                _specFlowOutputHelper.AddAttachment(_screenshotFilePath + "Cart Overview.jpg");
+                AllureApi.AddAttachment(_screenshotFilePath + "Cart Overview.jpg");
+            }
         }
     }
 }
